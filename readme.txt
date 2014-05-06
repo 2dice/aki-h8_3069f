@@ -104,7 +104,20 @@ macの環境構築はこちらを参考にしました．
 		gcc -Wall -o h8write h8write.c
 		~/path/to/this/repos/tools/h8write/	この中に上記ソースとバイナリを移動
 
-
+makeコマンド
+	$ make		#オブジェクトファイルの生成
+	$ make image	#実行ファイルの生成
+	$ make write	#書込み(SW1 ON ON OFF ON)
+	$ make clean	#生成ファイルの削除
+minicom
+	mode5でボードを起動(SW1 ON OFF ON OFF)
+	& sudo minicom -s -o
+	ボーレート		:9600bps
+	データ長			:8bit
+	ストップビット		:1bit
+	パリティ			:なし
+	ハードウェア・フロー制御	:なし
+	ソフトウェア・フロー制御	:なし
 
 
 
