@@ -8,8 +8,10 @@ int set_SCI0_bitrate(void);
 int enable_SCI0_serial_interrept(void);
 int enable_SCI0_TxRx(void);
 
-int serial_init(void);                       /*                                  */
-int serial_is_send_enable(int index);             /*                           */
-int serial_send_byte(int index, unsigned char b); /*                        */
+int set_SCI0_sending(void);
+
+int serial_init(void); 
+int serial_is_send_enable(int index); 
+int serial_send_byte(unsigned char b); 
 
 #endif
