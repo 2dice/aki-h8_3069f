@@ -10,17 +10,6 @@ hardware.odsについて
 マイコンのデータシートはわかりづらいため，レジスタ設定等のハードウェア情報を
 スプレッドシートにまとめ直しました．
 現時点で実機確認していません．これから少しずつ確認していく予定です．
-odsファイルはdiffで差分が取れないため，以下の.gitatrributesの設定で，
-簡易的にdiffを取れるようにしています．	
-
-.gitatrributesの設定
-以下の設定をすると.odsファイルの差分をテキストで表示できます．
-テキストにしても見づらいですが，ないよりはマシだと思います．
-環境はmac os x 10.6.8(snowleopard)で確認しています．
-	odt2txtのインストール(macports)
-		$ sudo port install odt2txt
-	.gitatrributesの設定
-		$ git config diff.odt2txt.textconv odt2txt
 
 開発環境構築
 マイコンボードは以下のものです．
