@@ -6,7 +6,7 @@ int main(void)
 {
   serial_init();
 
-  puts("Hello World!\n");
+  put_string("Hello World!\n");
 
   while (1)
     ;

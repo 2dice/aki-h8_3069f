@@ -2,18 +2,16 @@
 #include "serial.h"
 #include "lib.h"
 
-/* １文字送信 */
-int putc(unsigned char c)
+int put_char(unsigned char c)
 {
   if (c == '\n')
     serial_send_byte('\r');
   return serial_send_byte(c);
 }
 
-/* 文字列送信 */
-int puts(unsigned char *str)
+int put_string(unsigned char *str)
 {
   while (*str)
-    putc(*(str++));
+    put_char(*(str++));
   return 0;
 }
