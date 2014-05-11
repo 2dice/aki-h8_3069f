@@ -8,10 +8,13 @@ int main(void)
 
   put_string("Hello World!\n");
 
-  putxval(0x10, 0);
+  put_hex(0x10, 4);
   put_string("\n");
-  putxval(0xffff,0);
+  put_hex(0xffff,2);
   put_string("\n");
+  put_dec(9501);
+  put_string("\n");
+  put_dec(11901);
   
   while (1)
     ;

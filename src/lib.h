@@ -3,6 +3,7 @@
 
 int put_char(unsigned char c);    
 int put_string(unsigned char *str); 
-int putxval(unsigned long value, int column);
+int put_hex(unsigned long value, int digit_number);
+int put_dec(unsigned int value);
 
 #endif
