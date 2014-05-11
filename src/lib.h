@@ -3,5 +3,6 @@
 
 int put_char(unsigned char c);    
 int put_string(unsigned char *str); 
+int putxval(unsigned long value, int column);
 
 #endif

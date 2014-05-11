@@ -8,6 +8,11 @@ int main(void)
 
   put_string("Hello World!\n");
 
+  putxval(0x10, 0);
+  put_string("\n");
+  putxval(0xffff,0);
+  put_string("\n");
+  
   while (1)
     ;
 
