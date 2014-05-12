@@ -2,19 +2,54 @@
 #include "serial.h"
 #include "lib.h"
 
+static int init(void)
+{
+  extern int erodata, data_start, edata, bss_start, ebss;
+
+  memory_data_copy(&data_start, &erodata, (long)&edata - (long)&data_start);
+  set_data_in_memory(&bss_start, 0, (long)&ebss - (long)&bss_start);
+  serial_init();
+
+  return 0;
+}
+
+int global_data = 0x10;
+int global_bss;
+static int static_data = 0x20;
+static int static_bss;
+
+static void printval(void)
+    {
+      put_string("global_data = ");
+      put_hex(global_data, 4);
+      put_string("\n");
+
+      put_string("global_bss = ");
+      put_hex(global_bss, 4);
+      put_string("\n");
+
+      put_string("static_data = ");
+      put_hex(static_data, 4);
+      put_string("\n");
+
+      put_string("static_bss = ");
+      put_hex(static_bss, 4);
+      put_string("\n");
+    }
+
 int main(void)
 {
-  serial_init();
+  init();
 
   put_string("Hello World!\n");
 
-  put_hex(0x10, 4);
-  put_string("\n");
-  put_hex(0xffff,2);
-  put_string("\n");
-  put_dec(9501);
-  put_string("\n");
-  put_dec(11901);
+  printval();
+  put_string("overwrite variables.\n");
+  global_data = 0x20;
+  global_bss = 0x30;
+  static_data = 0x40;
+  static_bss = 0x50;
+  printval();
   
   while (1)
     ;

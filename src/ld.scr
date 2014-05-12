@@ -2,30 +2,58 @@
 OUTPUT_ARCH(h8300h)
 ENTRY("_start")
 
+MEMORY
+{
+	romall(rx)	: o = 0x000000, l = 0x80000
+	vectors(r)	: o = 0x000000, l = 0x000100
+	rom(rx)		: o = 0x000100, l = 0x07ff00
+
+	ramall(rwx)	: o = 0xffbf20, l = 0x004000
+	data(rwx)	: o = 0xfffc20, l = 0x000300
+	stack(rw)	: o = 0xffff00, l = 0x000000
+}
+
 SECTIONS
 {
-	. = 0x0;
-
+	/* 割り込みベクタ領域 */
 	.vectors : {
 		vector.o(.data)
-	}
+	} > vectors
 
+	/* プログラムの実行コード領域 */
 	.text : {
+		_text_start = . ;
 		*(.text)
-	}
+		_etext = . ;
+	} > rom
 
+	/* 文字列・const変数などの変更できないread only data領域 */
 	.rodata : {
+		_rodata_start = . ;
 		*(.strings)
 		*(.rodata)
 		*(.rodata.*)
-	}
+		_erodata = . ;
+	} > rom
 
+	/* 初期値を持つ変数データの領域 */
 	.data : {
+		_data_start = . ;
 		*(.data)
-	}
+		_edata = . ;
+	} > data AT> rom
 
+	/* 初期値のない変数データの領域 */
 	.bss : {
+		_bss_start = . ;
 		*(.bss)
 		*(COMMON)
-	}
+		_ebss = . ;
+	} > data AT> rom
+	. = ALIGN(4);
+	_end = . ;
+
+	.stack : {
+	       _stack = . ;
+	} > stack
 }
