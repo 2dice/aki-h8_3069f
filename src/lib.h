@@ -13,8 +13,8 @@ int string_compare(const char *A_pointer, const char *B_pointer);
 int string_compare_at_arbitrary_length
 (const char *A_pointer, const char *B_pointer, int compare_length);
 
-int put_char(unsigned char c);    
-int put_string(unsigned char *str); 
+int put_char(unsigned char c);
+int put_string(char str[]);
 int put_hex(unsigned long value, int digit_number);
 int put_dec(unsigned int value);
 

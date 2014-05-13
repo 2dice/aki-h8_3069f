@@ -115,7 +115,7 @@ int put_char(unsigned char c)
   return serial_send_byte(c);
 }
 
-int put_string(unsigned char *str)
+int put_string(char str[])
 {
   while (*str)
     put_char(*(str++));
