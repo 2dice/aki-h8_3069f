@@ -16,6 +16,7 @@ static int init(void)
 
 int global_data = 0x10;
 int global_bss;
+char global_bss_c;
 static int static_data = 0x20;
 static int static_bss;
 
@@ -27,6 +28,10 @@ static void printval(void)
 
       put_string("global_bss = ");
       put_hex(global_bss, 4);
+      put_string("\n");
+
+      put_string("global_bss_c = ");
+      put_hex(global_bss_c, 4);
       put_string("\n");
 
       put_string("static_data = ");
@@ -48,6 +53,7 @@ int main(void)
   put_string("overwrite variables.\n");
   global_data = 0x20;
   global_bss = 0x30;
+  global_bss_c = 0x31;
   static_data = 0x40;
   static_bss = 0x50;
   printval();
