@@ -4,9 +4,10 @@
 
 static int init(void)
 {
-  extern int erodata, data_start, edata, bss_start, ebss;
+  extern int data_start_load, data_start, edata, bss_start, ebss;
 
-  memory_data_copy(&data_start, &erodata, (long)&edata - (long)&data_start);
+  memory_data_copy
+      (&data_start, &data_start_load, (long)&edata - (long)&data_start);
   set_data_in_memory(&bss_start, 0, (long)&ebss - (long)&bss_start);
   serial_init();
 

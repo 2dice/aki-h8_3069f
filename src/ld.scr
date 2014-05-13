@@ -1,4 +1,4 @@
-/* OUTPUT_FORMAT("elf32-h8300") */
+OUTPUT_FORMAT("elf32-h8300")
 OUTPUT_ARCH(h8300h)
 ENTRY("_start")
 
@@ -42,6 +42,7 @@ SECTIONS
 		*(.data)
 		_edata = . ;
 	} > data AT> rom
+	_data_start_load=LOADADDR(.data);
 
 	/* 初期値のない変数データの領域 */
 	.bss : {
@@ -50,8 +51,9 @@ SECTIONS
 		*(COMMON)
 		_ebss = . ;
 	} > data AT> rom
-	. = ALIGN(4);
-	_end = . ;
+	/*. = ALIGN(4);*/
+	/*_end = . ;*/
+	_end = LOADADDR(.bss);
 
 	.stack : {
 	       _stack = . ;
