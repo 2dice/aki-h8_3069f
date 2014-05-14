@@ -14,7 +14,9 @@ int string_compare_at_arbitrary_length
 (const char *A_pointer, const char *B_pointer, int compare_length);
 
 int put_char(unsigned char c);
+unsigned char getc(void);
 int put_string(char str[]);
+int gets(unsigned char *buf);
 int put_hex(unsigned long value, int digit_number);
 int put_dec(unsigned int value);
 

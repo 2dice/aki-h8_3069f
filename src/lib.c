@@ -115,12 +115,34 @@ int put_char(unsigned char c)
   return serial_send_byte(c);
 }
 
+unsigned char getc(void)
+{
+  unsigned char c = serial_recv_byte();
+  c = (c == '\r') ? '\n' : c;
+  put_char(c);
+  return c;
+}
+
 int put_string(char str[])
 {
   while (*str)
     put_char(*(str++));
 
   return 0;
+}
+
+int gets(unsigned char *buf)
+{
+  int i = 0;
+  unsigned char c;
+
+  do{
+    c = getc();
+    if(c == '\n')
+      c = '\0';
+    buf[i++] = c;
+  }while(c);
+  return i - 1;
 }
 
 int put_hex(unsigned long value, int digit_number)
@@ -142,20 +164,20 @@ int put_hex(unsigned long value, int digit_number)
 }
 
 int put_dec(unsigned int value)
-    {
-      char dec_buffer[9];
-      char *dec_pointer;
-      int value_size = sizeof(value);
+{
+  char dec_buffer[9];
+  char *dec_pointer;
+  int value_size = sizeof(value);
 
-      dec_pointer = dec_buffer + sizeof(dec_buffer) -1;
-      *(dec_pointer--) = '\0';
-      while (value)
-        {
-          *(dec_pointer--) = "0123456789"[value % 10];
-          value /= 10;
-          value_size--;
-        }
-      put_string(dec_pointer + 1);
+  dec_pointer = dec_buffer + sizeof(dec_buffer) -1;
+  *(dec_pointer--) = '\0';
+  while (value)
+  {
+    *(dec_pointer--) = "0123456789"[value % 10];
+    value /= 10;
+    value_size--;
+  }
+  put_string(dec_pointer + 1);
 
-      return 0;
-    }
+  return 0;
+}

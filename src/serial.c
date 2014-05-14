@@ -2,6 +2,7 @@
 #include "serial.h"
 
 #define SCI0_SSR (*(volatile uint8*)0xffffbc)
+#define SCI0_RDR (*(volatile uint8*)0xffffbd)
 #define SCI0_TDR (*(volatile uint8*)0xffffbb)
 #define SCI0_SCR (*(volatile uint8*)0xffffba)
 #define SCI0_BRR (*(volatile uint8*)0xffffb9)
@@ -81,3 +82,22 @@ int serial_send_byte(unsigned char c)
   
   return 0;
 }
+
+int serial_is_recv_enable(void)
+{
+  if(SCI0_SSR & 0b01000000)
+    return 1;
+  return 0;
+}
+
+unsigned char serial_recv_byte(void)
+    {
+      unsigned char c;
+
+      while(!serial_is_recv_enable())
+        ;
+      c = SCI0_RDR;
+      SCI0_SSR = SCI0_SSR & ~0b01000000;
+
+      return c;
+    }

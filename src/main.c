@@ -1,5 +1,6 @@
 #include "defines.h"
 #include "serial.h"
+#include "xmodem.h"
 #include "lib.h"
 
 static int init(void)
@@ -14,52 +15,83 @@ static int init(void)
   return 0;
 }
 
-int global_data = 0x10;
-int global_bss;
-char global_bss_c;
-static int static_data = 0x20;
-static int static_bss;
+static int dump(char *buf, long size)
+{
+  long i;
 
-static void printval(void)
+  if(size < 0)
+  {
+    put_string("no data.\n");
+    return -1;
+  }
+  for(i = 0; i < size; i++)
+  {
+    put_hex(buf[i],2);
+    if((i & 0xf) == 15)
     {
-      put_string("global_data = ");
-      put_hex(global_data, 4);
       put_string("\n");
+    }
+    else
+    {
+      if((i & 0xf) == 7)
+        put_string(" ");
+      put_string(" ");
+    }
+  }
+  put_string("\n");
+      
+  return 0;
+}
 
-      put_string("global_bss = ");
-      put_hex(global_bss, 4);
-      put_string("\n");
-
-      put_string("global_bss_c = ");
-      put_hex(global_bss_c, 4);
-      put_string("\n");
-
-      put_string("static_data = ");
-      put_hex(static_data, 4);
-      put_string("\n");
-
-      put_string("static_bss = ");
-      put_hex(static_bss, 4);
-      put_string("\n");
+static void wait()
+    {
+      volatile long i;
+      for(i = 0; i < 300000; i++)
+        ;
     }
 
 int main(void)
 {
+  static char buf[16];
+  static long size = -1;
+  static unsigned char *loadbuf = NULL;
+  extern int buffer_start;
+  
   init();
 
-  put_string("Hello World!\n");
+  put_string("kzload (kozos boot loader) started.\n");
 
-  printval();
-  put_string("overwrite variables.\n");
-  global_data = 0x20;
-  global_bss = 0x30;
-  global_bss_c = 0x31;
-  static_data = 0x40;
-  static_bss = 0x50;
-  printval();
-  
-  while (1)
-    ;
+  while(1)
+    {
+      put_string("kzload> ");
+      gets(buf);
+
+      if(!string_compare(buf, "load"))
+        {
+          loadbuf = (char *)(&buffer_start);
+          size = xmodem_recv(loadbuf);
+          wait();
+          if(size < 0)
+            {
+              put_string("\nXMODEM receive error!\n");
+            }
+          else
+            {
+              put_string("\nXMODEM receive succeeded.\n");
+            }
+        }
+      else if(!string_compare(buf, "dump"))
+        {
+          put_string("size: ");
+          put_hex(size, 2);
+          put_string("\n");
+          dump(loadbuf, size);
+        }
+      else
+        {
+          put_string("unknown.\n");
+        }
+    }
 
   return 0;
 }

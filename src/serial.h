@@ -14,5 +14,7 @@ int set_SCI0_sending(void);
 int serial_init(void); 
 int serial_is_send_enable(int index); 
 int serial_send_byte(unsigned char b); 
+int serial_is_recv_enable(void);
+unsigned char serial_recv_byte(void);
 
 #endif
