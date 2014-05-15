@@ -48,7 +48,7 @@ int memory_compare
 
 ////////////////////string library////////////////////
 
-int string_length(const char *string_pointer)
+int string_length(const unsigned char *string_pointer)
 {
   int length;
 
@@ -58,9 +58,10 @@ int string_length(const char *string_pointer)
   return length;
 }
 
-char *string_copy(char *copy_destination, const char *copy_source)
+unsigned char *string_copy
+(unsigned char *copy_destination, const unsigned char *copy_source)
 {
-  char *destination = copy_destination;
+  unsigned char *destination = copy_destination;
 
   for (; ; copy_destination++, copy_source++)
   {
@@ -71,7 +72,8 @@ char *string_copy(char *copy_destination, const char *copy_source)
   return destination;
 }
 
-int string_compare(const char *A_pointer, const char *B_pointer)
+int string_compare
+(const unsigned char *A_pointer, const unsigned char *B_pointer)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different character by character-code)
     //return -1 : A<B(lowest address in different character by character-code)
@@ -88,7 +90,7 @@ int string_compare(const char *A_pointer, const char *B_pointer)
 }
 
 int string_compare_at_arbitrary_length
-(const char *A_pointer, const char *B_pointer, int compare_length)
+(const unsigned char *A_pointer, const unsigned char *B_pointer, int compare_length)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different character by character-code)
     //return -1 : A<B(lowest address in different character by character-code)
@@ -115,7 +117,7 @@ int put_char(unsigned char c)
   return serial_send_byte(c);
 }
 
-unsigned char getc(void)
+unsigned char get_char(void)
 {
   unsigned char c = serial_recv_byte();
   c = (c == '\r') ? '\n' : c;
@@ -123,7 +125,7 @@ unsigned char getc(void)
   return c;
 }
 
-int put_string(char str[])
+int put_string(unsigned char str[])
 {
   while (*str)
     put_char(*(str++));
@@ -131,13 +133,13 @@ int put_string(char str[])
   return 0;
 }
 
-int gets(unsigned char *buf)
+int get_string(unsigned char *buf)
 {
   int i = 0;
   unsigned char c;
 
   do{
-    c = getc();
+    c = get_char();
     if(c == '\n')
       c = '\0';
     buf[i++] = c;
@@ -147,8 +149,8 @@ int gets(unsigned char *buf)
 
 int put_hex(unsigned long value, int digit_number)
 {
-  char hex_buffer[9];
-  char *hex_pointer;
+  unsigned char hex_buffer[9];
+  unsigned char *hex_pointer;
 
   hex_pointer = hex_buffer + sizeof(hex_buffer) -1;
   *(hex_pointer--) = '\0';
@@ -165,8 +167,8 @@ int put_hex(unsigned long value, int digit_number)
 
 int put_dec(unsigned int value)
 {
-  char dec_buffer[9];
-  char *dec_pointer;
+  unsigned char dec_buffer[9];
+  unsigned char *dec_pointer;
   int value_size = sizeof(value);
 
   dec_pointer = dec_buffer + sizeof(dec_buffer) -1;

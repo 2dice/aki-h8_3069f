@@ -15,7 +15,7 @@ static int init(void)
   return 0;
 }
 
-static int dump(char *buf, long size)
+static int dump(unsigned char *buf, long size)
 {
   long i;
 
@@ -64,7 +64,7 @@ int main(void)
   while(1)
     {
       put_string("kzload> ");
-      gets(buf);
+      get_string(buf);
 
       if(!string_compare(buf, "load"))
         {

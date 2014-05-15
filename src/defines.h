@@ -2,7 +2,6 @@
 #define _DEFINES_H_INCLUDED_
 
 #define NULL ((void *)0)
-#define SERIAL_DEFAULT_DEVICE 1
 
 /* char      :8bit */
 /* int,short :16bit */

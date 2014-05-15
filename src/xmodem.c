@@ -3,23 +3,25 @@
 #include "lib.h"
 #include "xmodem.h"
 
-#define XMODEM_SOH 0x01
-#define XMODEM_STX 0x02
-#define XMODEM_EOT 0x04
-#define XMODEM_ACK 0x06
-#define XMODEM_NAK 0x15
-#define XMODEM_CAN 0x18
-#define XMODEM_EOF 0x1a /* Ctrl-Z */
+/* ASCII制御文字 */
+#define XMODEM_SOH 0x01 /* start of heading */
+#define XMODEM_STX 0x02 /* start of text */
+#define XMODEM_EOT 0x04 /* end of transmission */
+#define XMODEM_ACK 0x06 /* acknowledge */
+#define XMODEM_NAK 0x15 /* negative acknowledge */
+#define XMODEM_CAN 0x18 /* cancel */
+#define XMODEM_EOF 0x1a /* end of file (Ctrl-Z) */
 
 #define XMODEM_BLOCK_SIZE 128
 
-static int xmodem_wait(void)
+static int xmodem_polling(void)
 {
   long cnt = 0;
 
-  while (!serial_is_recv_enable())
+  while (SCI0_RECEIVING)
   {
     /* ここで受信するとNAKを返してしまい受け取れない */
+    /* TODO：割込に変更 */
     if(++cnt >= 2000000)
     {
       cnt = 0;
@@ -65,7 +67,7 @@ long xmodem_recv(char *buf)
   while(1)
   {
     if(!receiving)
-      xmodem_wait();
+      xmodem_polling();
 
     c = serial_recv_byte();
 

@@ -7,16 +7,18 @@ void *memory_data_copy
 int memory_compare
 (const void *A_first_address, const void *B_first_address, long compare_length);
 
-int string_length(const char *string_pointer);
-char *string_copy(char *copy_destination, const char *copy_source);
-int string_compare(const char *A_pointer, const char *B_pointer);
+int string_length(const unsigned char *string_pointer);
+unsigned char *string_copy
+(unsigned char *copy_destination, const unsigned char *copy_source);
+int string_compare
+(const unsigned char *A_pointer, const unsigned char *B_pointer);
 int string_compare_at_arbitrary_length
-(const char *A_pointer, const char *B_pointer, int compare_length);
+(const unsigned char *A_pointer, const unsigned char *B_pointer, int compare_length);
 
 int put_char(unsigned char c);
-unsigned char getc(void);
-int put_string(char str[]);
-int gets(unsigned char *buf);
+unsigned char get_char(void);
+int put_string(unsigned char str[]);
+int get_string(unsigned char *buf);
 int put_hex(unsigned long value, int digit_number);
 int put_dec(unsigned int value);
 
