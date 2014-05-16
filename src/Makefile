@@ -20,7 +20,7 @@ H8WRITE = ../tools/h8write/h8write
 H8WRITE_SERDEV = /dev/cu.PL2303-00004006
 
 OBJS  = vector.o startup.o main.o
-OBJS += lib.o serial.o xmodem.o
+OBJS += lib.o serial.o xmodem.o peripheralInterface.o command.o
 
 TARGET = kzload
 

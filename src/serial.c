@@ -58,7 +58,7 @@ int serial_init(void)
   return 0;
 }
 
-int set_SCI0_sending(void)
+static int set_SCI0_sending(void)
     {
       SCI0_SSR = SCI0_SSR & ~0b10000000;
       return 0;
@@ -74,7 +74,7 @@ int serial_send_byte(unsigned char c)
   return 0;
 }
 
-int set_SCI0_receiving(void)
+static int set_SCI0_receiving(void)
     {
       SCI0_SSR = SCI0_SSR & ~0b01000000;
       return 0;

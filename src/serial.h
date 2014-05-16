@@ -11,9 +11,6 @@
 #define SCI0_SENDING (~SCI0_SSR & 0b10000000)
 #define SCI0_RECEIVING (~SCI0_SSR & 0b01000000)
 
-int set_SCI0_sending(void);
-int set_SCI0_receiving(void);
-
 int serial_init(void); 
 int serial_send_byte(unsigned char b); 
 unsigned char serial_recv_byte(void);
