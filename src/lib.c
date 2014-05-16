@@ -73,7 +73,7 @@ unsigned char *string_copy
 }
 
 int string_compare
-(const unsigned char *A_pointer, const unsigned char *B_pointer)
+(const char *A_pointer, const char *B_pointer)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different character by character-code)
     //return -1 : A<B(lowest address in different character by character-code)
@@ -90,7 +90,7 @@ int string_compare
 }
 
 int string_compare_at_arbitrary_length
-(const unsigned char *A_pointer, const unsigned char *B_pointer, int compare_length)
+(const char *A_pointer, const char *B_pointer, int compare_length)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different character by character-code)
     //return -1 : A<B(lowest address in different character by character-code)
@@ -125,7 +125,7 @@ unsigned char get_char(void)
   return c;
 }
 
-int put_string(unsigned char str[])
+int put_string(char str[])
 {
   while (*str)
     put_char(*(str++));
@@ -133,7 +133,7 @@ int put_string(unsigned char str[])
   return 0;
 }
 
-int get_string(unsigned char *buf)
+int get_string(char *store_array)
 {
   int i = 0;
   unsigned char c;
@@ -142,15 +142,15 @@ int get_string(unsigned char *buf)
     c = get_char();
     if(c == '\n')
       c = '\0';
-    buf[i++] = c;
+    store_array[i++] = c;
   }while(c);
   return i - 1;
 }
 
 int put_hex(unsigned long value, int digit_number)
 {
-  unsigned char hex_buffer[9];
-  unsigned char *hex_pointer;
+  char hex_buffer[9];
+  char *hex_pointer;
 
   hex_pointer = hex_buffer + sizeof(hex_buffer) -1;
   *(hex_pointer--) = '\0';
@@ -167,8 +167,8 @@ int put_hex(unsigned long value, int digit_number)
 
 int put_dec(unsigned int value)
 {
-  unsigned char dec_buffer[9];
-  unsigned char *dec_pointer;
+  char dec_buffer[9];
+  char *dec_pointer;
   int value_size = sizeof(value);
 
   dec_pointer = dec_buffer + sizeof(dec_buffer) -1;

@@ -11,14 +11,14 @@ int string_length(const unsigned char *string_pointer);
 unsigned char *string_copy
 (unsigned char *copy_destination, const unsigned char *copy_source);
 int string_compare
-(const unsigned char *A_pointer, const unsigned char *B_pointer);
+(const char *A_pointer, const char *B_pointer);
 int string_compare_at_arbitrary_length
-(const unsigned char *A_pointer, const unsigned char *B_pointer, int compare_length);
+(const char *A_pointer, const char *B_pointer, int compare_length);
 
 int put_char(unsigned char c);
 unsigned char get_char(void);
-int put_string(unsigned char str[]);
-int get_string(unsigned char *buf);
+int put_string(char str[]);
+int get_string(char *store_array);
 int put_hex(unsigned long value, int digit_number);
 int put_dec(unsigned int value);
 
