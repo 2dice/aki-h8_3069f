@@ -1,5 +1,5 @@
 #include "defines.h"
-#include "serial.h"
+#include "peripheralInterface.h"
 #include "lib.h"
 #include "xmodem.h"
 
@@ -14,6 +14,7 @@
 
 #define BLOCK_SIZE 128
 
+/* serial_send_byteで待ってるのに無いと文字化けする，最適化解除でも変わらず． */
 static void xmodem_wait()
     {
       volatile long i;
@@ -25,13 +26,13 @@ static int xmodem_polling(void)
 {
   long i = 0;
 
-  while (SCI0_RECEIVING)
+  while (SCI0_receiving())
   {
     /* TODO：割込に変更 */
     if(++i >= 2000000)
     {
       i = 0;
-      serial_send_byte(NAK);
+      put_byte_data(NAK);
     }
   }
   return 0;
@@ -43,12 +44,12 @@ static int xmodem_read_block(unsigned char block_number, char *store_address)
   int i;
 
   /* データブロック番号 */
-  recv_block_num = serial_recv_byte();
+  recv_block_num = get_byte_data();
   if(recv_block_num != block_number)
     return -1;
 
   /* データブロック番号の1の補数 */
-  recv_block_num ^= serial_recv_byte();
+  recv_block_num ^= get_byte_data();
   if(recv_block_num != 0xff)
     return -1;
 
@@ -56,13 +57,13 @@ static int xmodem_read_block(unsigned char block_number, char *store_address)
   check_sum = 0;
   for(i = 0; i < BLOCK_SIZE; i++)
   {
-    c = serial_recv_byte();
+    c = get_byte_data();
     *(store_address++) = c;
     check_sum += c;
   }
 
   /* チェックサム */
-  check_sum ^= serial_recv_byte();
+  check_sum ^= get_byte_data();
   if(check_sum)
     return -1;
   return i;
@@ -79,12 +80,12 @@ long xmodem_recv(char *store_address)
     if(!receiving)
       xmodem_polling();
 
-    c = serial_recv_byte();
+    c = get_byte_data();
 
     /* 転送終了 */
     if(c == EOT)
       {
-        serial_send_byte(ACK);
+        put_byte_data(ACK);
         break;
       }
     /* 転送中断 */
@@ -99,14 +100,14 @@ long xmodem_recv(char *store_address)
         read_block_size = xmodem_read_block(block_number, store_address);
         if(read_block_size < 0)
           {
-            serial_send_byte(NAK);
+            put_byte_data(NAK);
           }
         else
           {
             block_number++;
             total_read_size += read_block_size;
             store_address += read_block_size;
-            serial_send_byte(ACK);
+            put_byte_data(ACK);
           }
       }
     else

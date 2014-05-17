@@ -3,6 +3,10 @@
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
+int SCI0_receiving(void)
+    {
+      return SCI0_RECEIVING;
+    }
 
 int put_char(unsigned char c)
 {
@@ -12,11 +16,24 @@ int put_char(unsigned char c)
   return serial_send_byte(c);
 }
 
+int put_byte_data(unsigned char c)
+{
+
+  return serial_send_byte(c);
+
+}
+
 unsigned char get_char(void)
 {
   unsigned char c = serial_recv_byte();
   c = (c == '\r') ? '\n' : c;
   put_char(c);
+  return c;
+}
+
+unsigned char get_byte_data(void)
+{
+  unsigned char c = serial_recv_byte();
   return c;
 }
 
