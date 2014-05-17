@@ -3,12 +3,12 @@
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
-int SCI0_receiving(void)
+int16 SCI0_receiving(void)
     {
       return SCI0_RECEIVING;
     }
 
-int put_char(unsigned char c)
+int16 put_char(uint8 c)
 {
   if (c == '\n')
     serial_send_byte('\r');
@@ -16,28 +16,28 @@ int put_char(unsigned char c)
   return serial_send_byte(c);
 }
 
-int put_byte_data(unsigned char c)
+int16 put_byte_data(uint8 c)
 {
 
   return serial_send_byte(c);
 
 }
 
-unsigned char get_char(void)
+uint8 get_char(void)
 {
-  unsigned char c = serial_recv_byte();
+  uint8 c = serial_recv_byte();
   c = (c == '\r') ? '\n' : c;
   put_char(c);
   return c;
 }
 
-unsigned char get_byte_data(void)
+uint8 get_byte_data(void)
 {
-  unsigned char c = serial_recv_byte();
+  uint8 c = serial_recv_byte();
   return c;
 }
 
-int put_string(char str[])
+int16 put_string(int8 str[])
 {
   while (*str)
     put_char(*(str++));
@@ -45,10 +45,10 @@ int put_string(char str[])
   return 0;
 }
 
-int get_string(char *store_array)
+int16 get_string(int8 *store_array)
 {
-  int i = 0;
-  unsigned char c;
+  int16 i = 0;
+  uint8 c;
 
   do{
     c = get_char();
@@ -59,10 +59,10 @@ int get_string(char *store_array)
   return i - 1;
 }
 
-int put_hex(unsigned long value, int digit_number)
+int16 put_hex(uint32 value, int16 digit_number)
 {
-  char hex_buffer[9];
-  char *hex_pointer;
+  int8 hex_buffer[9];
+  int8 *hex_pointer;
 
   hex_pointer = hex_buffer + sizeof(hex_buffer) -1;
   *(hex_pointer--) = '\0';
@@ -77,11 +77,11 @@ int put_hex(unsigned long value, int digit_number)
   return 0;
 }
 
-int put_dec(unsigned int value)
+int16 put_dec(uint16 value)
 {
-  char dec_buffer[9];
-  char *dec_pointer;
-  int value_size = sizeof(value);
+  int8 dec_buffer[9];
+  int8 *dec_pointer;
+  int16 value_size = sizeof(value);
 
   dec_pointer = dec_buffer + sizeof(dec_buffer) -1;
   *(dec_pointer--) = '\0';

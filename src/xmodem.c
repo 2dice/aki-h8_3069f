@@ -1,6 +1,5 @@
 #include "defines.h"
 #include "peripheralInterface.h"
-#include "lib.h"
 #include "xmodem.h"
 
 /* ASCII制御文字 */
@@ -22,9 +21,9 @@ static void xmodem_wait()
         ;
     }
 
-static int xmodem_polling(void)
+static int16 xmodem_polling(void)
 {
-  long i = 0;
+  int32 i = 0;
 
   while (SCI0_receiving())
   {
@@ -38,10 +37,10 @@ static int xmodem_polling(void)
   return 0;
 }
 
-static int xmodem_read_block(unsigned char block_number, char *store_address)
+static int16 xmodem_read_block(uint8 block_number, int8 *store_address)
 {
-  unsigned char c, recv_block_num, check_sum;
-  int i;
+  uint8 c, recv_block_num, check_sum;
+  int16 i;
 
   /* データブロック番号 */
   recv_block_num = get_byte_data();
@@ -69,11 +68,11 @@ static int xmodem_read_block(unsigned char block_number, char *store_address)
   return i;
 }
 
-long xmodem_recv(char *store_address)
+int32 xmodem_recv(int8 *store_address)
 {
-  int read_block_size, receiving = 0;
-  long total_read_size = 0;
-  unsigned char c, block_number = 1;
+  int16 read_block_size, receiving = 0;
+  int32 total_read_size = 0;
+  uint8 c, block_number = 1;
 
   while(1)
   {

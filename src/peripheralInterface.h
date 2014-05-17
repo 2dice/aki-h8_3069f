@@ -1,14 +1,16 @@
 #ifndef _PERIPHERAL_H_INCLUDED_
 #define _PERIPHERAL_H_INCLUDED_
 
-int SCI0_receiving(void);
-int put_char(unsigned char c);
-int put_byte_data(unsigned char c);
-unsigned char get_char(void);
-unsigned char get_byte_data(void);
-int put_string(char str[]);
-int get_string(char *store_array);
-int put_hex(unsigned long value, int digit_number);
-int put_dec(unsigned int value);
+#include "defines.h"
+
+int16 SCI0_receiving(void);
+int16 put_char(uint8 c);
+int16 put_byte_data(uint8 c);
+uint8 get_char(void);
+uint8 get_byte_data(void);
+int16 put_string(int8 str[]);
+int16 get_string(int8 *store_array);
+int16 put_hex(uint32 value, int16 digit_number);
+int16 put_dec(uint16 value);
 
 #endif

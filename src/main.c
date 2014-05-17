@@ -1,6 +1,4 @@
 #include "defines.h"
-#include "serial.h"
-#include "xmodem.h"
 #include "lib.h"
 #include "peripheralInterface.h"
 #include "command.h"

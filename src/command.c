@@ -4,11 +4,11 @@
 #include "xmodem.h"
 #include "command.h"
 
-extern int buffer_start;
-static long size = -1;
-static char *xmodem_recv_buffer_start_address = (char *)(&buffer_start);
+extern int16 buffer_start;
+static int32 size = -1;
+static int8 *xmodem_recv_buffer_start_address = (int8 *)(&buffer_start);
 
-long command_load(void)
+int32 command_load(void)
 {
   size = xmodem_recv(xmodem_recv_buffer_start_address);
   if(size < 0)
@@ -22,7 +22,7 @@ long command_load(void)
   return size;
 }
 
-int command_dump(void)
+int16 command_dump(void)
 {
   put_string("size: ");
   put_hex(size, 2);

@@ -4,9 +4,9 @@
 
 ////////////////////memory library////////////////////
 
-void *set_data_in_memory(void *first_address, int set_data, long set_length)
+void *set_data_in_memory(void *first_address, int16 set_data, int32 set_length)
 {
-  char *set_address;
+  int8 *set_address;
 
   for (set_address = first_address; set_length > 0; set_length--)
     *(set_address++) =set_data;
@@ -15,10 +15,10 @@ void *set_data_in_memory(void *first_address, int set_data, long set_length)
 }
 
 void *memory_data_copy
-(void *store_first_address, const void *source_first_address, long copy_length)
+(void *store_first_address, const void *source_first_address, int32 copy_length)
 {
-  char *store_address        = store_first_address;
-  const char *source_address = source_first_address;
+  int8 *store_address        = store_first_address;
+  const int8 *source_address = source_first_address;
 
   for (; copy_length > 0; copy_length--)
     *(store_address++) = *(source_address++);
@@ -26,13 +26,13 @@ void *memory_data_copy
   return store_first_address;
 }
 
-int memory_compare
-(const void *A_first_address, const void *B_first_address, long compare_length)
+int16 memory_compare
+(const void *A_first_address, const void *B_first_address, int32 compare_length)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different data)
     //return -1 : A<B(lowest address in different data)
 {
-  const char *A_address = A_first_address,
+  const int8 *A_address = A_first_address,
              *B_address = B_first_address;
 
   for (; compare_length > 0; compare_length--)
@@ -46,9 +46,9 @@ int memory_compare
   return 0;
 }
 
-int dump(char *dump_start_address, long size)
+int16 dump(int8 *dump_start_address, int32 size)
 {
-  long i;
+  int32 i;
 
   if(size < 0)
   {
@@ -79,9 +79,9 @@ int dump(char *dump_start_address, long size)
 
 ////////////////////string library////////////////////
 
-int string_length(const unsigned char *string_pointer)
+int16 string_length(const uint8 *string_pointer)
 {
-  int length;
+  int16 length;
 
   for (length = 0; *string_pointer; string_pointer++, length++)
     ;
@@ -89,10 +89,10 @@ int string_length(const unsigned char *string_pointer)
   return length;
 }
 
-unsigned char *string_copy
-(unsigned char *copy_destination, const unsigned char *copy_source)
+uint8 *string_copy
+(uint8 *copy_destination, const uint8 *copy_source)
 {
-  unsigned char *destination = copy_destination;
+  uint8 *destination = copy_destination;
 
   for (; ; copy_destination++, copy_source++)
   {
@@ -103,8 +103,8 @@ unsigned char *string_copy
   return destination;
 }
 
-int string_compare
-(const char *A_pointer, const char *B_pointer)
+int16 string_compare
+(const int8 *A_pointer, const int8 *B_pointer)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different character by character-code)
     //return -1 : A<B(lowest address in different character by character-code)
@@ -120,8 +120,8 @@ int string_compare
   return 0;
 }
 
-int string_compare_at_arbitrary_length
-(const char *A_pointer, const char *B_pointer, int compare_length)
+int16 string_compare_at_arbitrary_length
+(const int8 *A_pointer, const int8 *B_pointer, int16 compare_length)
     //return  0 : A=B
     //return  1 : A>B(lowest address in different character by character-code)
     //return -1 : A<B(lowest address in different character by character-code)
