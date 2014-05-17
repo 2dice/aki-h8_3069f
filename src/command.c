@@ -11,7 +11,6 @@ static char *xmodem_recv_buffer_start_address = (char *)(&buffer_start);
 long command_load(void)
 {
   size = xmodem_recv(xmodem_recv_buffer_start_address);
-  xmodem_wait();
   if(size < 0)
   {
     put_string("\nXMODEM receive error!\n");

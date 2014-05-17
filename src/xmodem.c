@@ -14,6 +14,13 @@
 
 #define BLOCK_SIZE 128
 
+static void xmodem_wait()
+    {
+      volatile long i;
+      for(i = 0; i < 300000; i++)
+        ;
+    }
+
 static int xmodem_polling(void)
 {
   long i = 0;
@@ -108,6 +115,8 @@ long xmodem_recv(char *store_address)
           return -1;
       }
   }
+  xmodem_wait();
+
   return total_read_size;
 }
   

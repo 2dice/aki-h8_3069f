@@ -2,7 +2,7 @@
 #include "serial.h"
 #include "peripheralInterface.h"
 
-////////////////////serial library////////////////////
+////////////////////serial interface////////////////////
 
 int put_char(unsigned char c)
 {

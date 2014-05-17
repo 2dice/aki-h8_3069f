@@ -16,6 +16,4 @@ int string_compare
 int string_compare_at_arbitrary_length
 (const char *A_pointer, const char *B_pointer, int compare_length);
 
-void xmodem_wait();
-
 #endif

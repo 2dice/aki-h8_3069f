@@ -138,10 +138,3 @@ int string_compare_at_arbitrary_length
   return 0;
 }
 
-////////////////////other////////////////////
-void xmodem_wait()
-    {
-      volatile long i;
-      for(i = 0; i < 300000; i++)
-        ;
-    }
