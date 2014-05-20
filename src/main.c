@@ -41,6 +41,10 @@ int main(void)
       {
         command_dump();
       }
+      else if(!string_compare(command, "run"))
+      {
+        command_run();
+      }
       else
       {
         put_string("unknown.\n");

@@ -3,6 +3,7 @@
 #include "peripheralInterface.h"
 #include "xmodem.h"
 #include "command.h"
+#include "elf.h"
 
 extern int16 buffer_start;
 static int32 size = -1;
@@ -29,5 +30,12 @@ int16 command_dump(void)
   put_string("\n");
   dump(xmodem_recv_buffer_start_address, size);
 
+  return 0;
+}
+
+int16 command_run(void)
+{
+  elf_load(xmodem_recv_buffer_start_address);
+      
   return 0;
 }

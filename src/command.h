@@ -5,5 +5,6 @@
 
 int32 command_load(void);
 int16 command_dump(void);
+int16 command_run(void);
 
 #endif
