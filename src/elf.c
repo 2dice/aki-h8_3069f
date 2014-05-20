@@ -140,9 +140,9 @@ static int16 elf_load_program(struct elf_header *header)
   return 0;
 }
 
-int16 elf_load(int8 *buf)
+int16 elf_load(int8 *buffer_start_address)
 {
-  struct elf_header *header = (struct elf_header *)buf;
+  struct elf_header *header = (struct elf_header *)buffer_start_address;
 
   if(elf_check(header) < 0)
     return -1;
