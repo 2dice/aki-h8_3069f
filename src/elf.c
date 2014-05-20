@@ -102,6 +102,14 @@ static int16 elf_check(struct elf_header *header)
   return -1;
 }
 
+static bool segment_type_is_LOAD(struct elf_program_header *header)
+{
+  if(header -> type != 1)
+    return 0;
+  return 1;
+}
+
+
 static int16 elf_load_program(struct elf_header *header)
 {
   int16 i;
@@ -112,7 +120,7 @@ static int16 elf_load_program(struct elf_header *header)
     program_header = (struct elf_program_header *)
         ((int8 *)header + header ->program_header_offset +
          header -> program_header_size * i);
-    if(program_header -> type != 1)
+    if(!segment_type_is_LOAD(program_header))
       continue;
     put_hex(program_header -> offset, 6);
     put_string(" ");
