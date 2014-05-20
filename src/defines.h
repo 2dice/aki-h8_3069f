@@ -13,6 +13,7 @@ typedef unsigned long  uint32;
 
 typedef char int8;
 typedef short int16;
+typedef short bool;
 typedef long  int32;
 
 #endif

@@ -42,20 +42,64 @@ struct elf_program_header
   int32 align;                 /* セグメントのアラインメント */
 };
 
+static bool magic_number_is_ELF(struct elf_header *header)
+{
+  if(memory_compare(header -> id.magic, "\x7f" "ELF", 4))
+    return 0;
+  return 1;
+}
+
+static bool class_is_32bit(struct elf_header *header)
+{
+  if(header -> id.class != 1)
+    return 0;
+  return 1;
+}
+
+static bool format_is_big_endian(struct elf_header *header)
+{
+  if(header -> id.format != 2)
+    return 0;
+  return 1;
+}
+
+static bool EI_version_is_1(struct elf_header *header)
+{
+  if(header -> id.version != 1)
+    return 0;
+  return 1;
+}
+
+static bool type_is_executable_file(struct elf_header *header)
+{
+  if(header -> type != 2)
+    return 0;
+  return 1;
+}
+
+static bool e_version_is_1(struct elf_header *header)
+{
+  if(header -> version != 1)
+    return 0;
+  return 1;
+}
+
+static bool arch_is_h8(struct elf_header *header)
+{
+  if((header -> arch != 46) && (header -> arch !=47))
+    return 0;
+  return 1;
+}
+
 static int16 elf_check(struct elf_header *header)
 {
-/* TODO:関数かdefineで切り離す */
-  if(memory_compare(header -> id.magic, "\x7f" "ELF", 4))
-    return -1;                            /* マジックナンバーがELF形式かどうか確認 */
-  if(header -> id.class != 1) return -1;  /* 32bitかどうか確認 */
-  if(header -> id.format != 2) return -1; /* ビッグエンディアンかどうか確認 */
-  if(header -> id.version != 1) return -1;/* バージョンが1かどうか確認 */
-  if(header -> type != 2) return -1;      /* executable fileかどうか確認 */
-  if(header -> version != 1) return -1;   /* バージョンが1かどうか確認 */
-  /* アーキテクチャがh8かどうか確認 */
-  if((header -> arch != 46) && (header -> arch !=47)) return -1;
-
-  return 0;
+  if(magic_number_is_ELF(header)     & class_is_32bit(header)  &
+     format_is_big_endian(header)    & EI_version_is_1(header) &
+     type_is_executable_file(header) & e_version_is_1(header)  &
+     arch_is_h8(header)
+     )
+    return 0;
+  return -1;
 }
 
 static int16 elf_load_program(struct elf_header *header)
