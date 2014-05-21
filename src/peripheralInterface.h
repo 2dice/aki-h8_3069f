@@ -3,6 +3,7 @@
 
 #include "defines.h"
 
+int16 serial_init(void);
 int16 SCI0_receiving(void);
 int16 put_char(uint8 c);
 int16 put_byte_data(uint8 c);

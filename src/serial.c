@@ -1,62 +1,47 @@
 #include "defines.h"
 #include "serial.h"
 
-static int16 disable_SCI0_TxRx(void)
+int16 disable_SCI0_TxRx(void)
     {
       SCI0_SCR = SCI0_SCR & ~0b00110000;
       return 0;
     }
 
-static int16 disable_SCI0_serial_interrupt(void)
+int16 disable_SCI0_serial_interrupt(void)
     {
       SCI0_SCR = SCI0_SCR & ~0b11001100;
       return 0;
     }
 
-static int16 set_SCI0_clock_source_and_SCK_port_status(void)
+int16 set_SCI0_clock_source_and_SCK_port_status(void)
     {
       SCI0_SCR = SCI0_SCR & ~0b00000011;
       return 0;
     }
 
-static int16 set_SCI0_serial_modes(void)
+int16 set_SCI0_serial_modes(void)
     {
       SCI0_SMR = SCI0_SMR & ~0b11111111;
       return 0;
     }
 
-static int16 set_SCI0_bitrate(void)
+int16 set_SCI0_bitrate(void)
     {
       SCI0_BRR = 64;
       return 0;
     }
 
-static int16 enable_SCI0_serial_interrept(void)
+int16 enable_SCI0_serial_interrept(void)
     {
       SCI0_SCR = SCI0_SCR | 0b11000100;
       return 0;
     }
 
-static int16 enable_SCI0_TxRx(void)
+int16 enable_SCI0_TxRx(void)
     {
       SCI0_SCR = SCI0_SCR | 0b00110000;
       return 0;
     }
-
-int16 serial_init(void)
-{
-  disable_SCI0_TxRx();
-  disable_SCI0_serial_interrupt();
-
-  set_SCI0_clock_source_and_SCK_port_status();
-  set_SCI0_serial_modes();
-  set_SCI0_bitrate();
-
-  enable_SCI0_serial_interrept();
-  enable_SCI0_TxRx();
-  
-  return 0;
-}
 
 static int16 set_SCI0_sending(void)
     {

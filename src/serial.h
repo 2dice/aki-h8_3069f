@@ -13,7 +13,14 @@
 #define SCI0_SENDING (~SCI0_SSR & 0b10000000)
 #define SCI0_RECEIVING (~SCI0_SSR & 0b01000000)
 
-int16 serial_init(void); 
+int16 disable_SCI0_TxRx(void);
+int16 disable_SCI0_serial_interrupt(void);
+int16 set_SCI0_clock_source_and_SCK_port_status(void);
+int16 set_SCI0_serial_modes(void);
+int16 set_SCI0_bitrate(void);
+int16 enable_SCI0_serial_interrept(void);
+int16 enable_SCI0_TxRx(void);
+
 int16 serial_send_byte(uint8 c); 
 uint8 serial_recv_byte(void);
 

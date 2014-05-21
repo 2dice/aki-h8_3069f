@@ -3,6 +3,21 @@
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
+int16 serial_init(void)
+{
+  disable_SCI0_TxRx();
+  disable_SCI0_serial_interrupt();
+
+  set_SCI0_clock_source_and_SCK_port_status();
+  set_SCI0_serial_modes();
+  set_SCI0_bitrate();
+
+  enable_SCI0_serial_interrept();
+  enable_SCI0_TxRx();
+  
+  return 0;
+}
+
 int16 SCI0_receiving(void)
     {
       return SCI0_RECEIVING;
