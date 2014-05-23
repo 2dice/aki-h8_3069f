@@ -34,8 +34,8 @@ struct elf_program_header
 {
   int32 type;                  /* セグメントの種別 */
   int32 offset;                /* セグメントのELFファイル上での位置 */
-  int32 virturl_address;       /* セグメントの論理アドレス(VA) */
-  int32 physical_address;      /* セグメントの物理アドレス(PA) */
+  int32 virturl_address;       /* セグメントを展開する論理アドレス(VA) */
+  int32 physical_address;      /* セグメントを展開する物理アドレス(PA) */
   int32 file_size;             /* セグメントのELFファイル上でのサイズ */
   int32 memory_size;           /* セグメントのメモリ上でのサイズ */
   int32 flags;                 /* 各種フラグ */
@@ -118,36 +118,31 @@ static int16 elf_load_program(struct elf_header *header)
   for(i = 0; i < header->program_header_number; i++)
   {
     program_header = (struct elf_program_header *)
-        ((int8 *)header + header ->program_header_offset +
-         header -> program_header_size * i);
+        ((int8 *)header + header->program_header_offset +
+         header->program_header_size * i);
     if(!segment_type_is_LOAD(program_header))
       continue;
-    put_hex(program_header -> offset, 6);
-    put_string(" ");
-    put_hex(program_header -> virturl_address, 8);
-    put_string(" ");
-    put_hex(program_header -> physical_address, 8);
-    put_string(" ");
-    put_hex(program_header -> file_size, 5);
-    put_string(" ");
-    put_hex(program_header -> memory_size, 5);
-    put_string(" ");
-    put_hex(program_header -> flags, 2);
-    put_string(" ");
-    put_hex(program_header -> align, 2);
-    put_string("\n");
+    /* .textと.rodataを展開 */
+    memory_data_copy((int8 *)program_header->physical_address,
+                     (int8 *)header + program_header->offset,
+                     program_header->file_size);
+    /* .dataと.bssを展開 */
+    set_data_in_memory(
+        (int8 *)program_header->physical_address + program_header->file_size,
+        0,
+        program_header->memory_size - program_header->file_size);
   }
   return 0;
 }
 
-int16 elf_load(int8 *buffer_start_address)
+int8 *elf_load(int8 *buffer_start_address)
 {
   struct elf_header *header = (struct elf_header *)buffer_start_address;
 
   if(elf_check(header) < 0)
-    return -1;
+    return NULL;
   if(elf_load_program(header) < 0)
-    return -1;
+    return NULL;
 
-  return 0;
+  return (char *)header->entry_point;
 }

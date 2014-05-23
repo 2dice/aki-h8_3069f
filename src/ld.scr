@@ -4,12 +4,12 @@ ENTRY("_start")
 
 MEMORY
 {
-	romall(rx)	: o = 0x000000, l = 0x80000
+	romall(rx)	: o = 0x000000, l = 0x080000
 	vectors(r)	: o = 0x000000, l = 0x000100
 	rom(rx)		: o = 0x000100, l = 0x07ff00
 
 	ramall(rwx)	: o = 0xffbf20, l = 0x004000
-	buffer(rwx)	: o = 0xffbf20, l = 0x001d00	/* 16kB */
+	buffer(rwx)	: o = 0xffdf20, l = 0x001d00	/* 16kB */
 	data(rwx)	: o = 0xfffc20, l = 0x000300
 	stack(rw)	: o = 0xffff00, l = 0x000000
 }

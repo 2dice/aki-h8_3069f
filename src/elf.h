@@ -3,6 +3,6 @@
 
 #include "defines.h"
 
-int16 elf_load(int8 *buffer_start_address);
+int8 *elf_load(int8 *buffer_start_address);
 
 #endif

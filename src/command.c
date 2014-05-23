@@ -35,7 +35,22 @@ int16 command_dump(void)
 
 int16 command_run(void)
 {
-  elf_load(xmodem_recv_buffer_start_address);
-      
+  int8 *entry_point;
+  void (*f)(void);
+  
+  entry_point = elf_load(xmodem_recv_buffer_start_address);
+  if(!entry_point)
+    {
+      put_string("run error!\n");
+    }
+  else
+    {
+      put_string("starting from entry point:");
+      put_hex((uint32)entry_point, 6);
+      put_string("\n");
+      put_string("\n");
+      f = (void (*)(void))entry_point;
+      f();
+    } 
   return 0;
 }
