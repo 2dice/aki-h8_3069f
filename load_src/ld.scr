@@ -1,0 +1,51 @@
+OUTPUT_FORMAT("elf32-h8300")
+OUTPUT_ARCH(h8300h)
+ENTRY("_start")
+
+MEMORY
+{
+	ram(rwx)	: o = 0xffc020, l = 0x003f00
+	stack(rw)	: o = 0xffff00, l = 0x000000
+}
+
+SECTIONS
+{
+	/* プログラムの実行コード領域 */
+	.text : {
+		_text_start = . ;
+		*(.text)
+		_etext = . ;
+	} > ram
+
+	/* 文字列・const変数などの変更できないread only data領域 */
+	.rodata : {
+		_rodata_start = . ;
+		*(.strings)
+		*(.rodata)
+		*(.rodata.*)
+		_erodata = . ;
+	} > ram
+
+	/* 初期値を持つ変数データの領域 */
+	.data : {
+		_data_start = . ;
+		*(.data)
+		_edata = . ;
+	} > ram
+	_data_start_load=LOADADDR(.data);
+
+	/* 初期値のない変数データの領域 */
+	.bss : {
+		_bss_start = . ;
+		*(.bss)
+		*(COMMON)
+		_ebss = . ;
+	} > ram
+	/*. = ALIGN(4);*/
+	/*_end = . ;*/
+	_end = LOADADDR(.bss);
+
+	.stack : {
+	       _stack = . ;
+	} > stack
+}
