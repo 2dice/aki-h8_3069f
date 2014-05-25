@@ -46,9 +46,9 @@ _intr_syscall:
 	mov.l @er7+,er6
 	rte
 
-	.global _intr_serintr
-	.type   _intr_serintr,@function
-_intr_serintr:
+	.global _RXI1
+	.type   _RXI1,@function
+_RXI1:
 	mov.l er6,@-er7
 	mov.l er5,@-er7
 	mov.l er4,@-er7
