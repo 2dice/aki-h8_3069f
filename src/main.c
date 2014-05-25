@@ -24,9 +24,6 @@ static int init(void)
   serial_init();
 
   put_string("kzload (kozos boot loader) started.\n");
-
-  softvec_setintr(SOFTVEC_TYPE_SERINTR, intr);
-  serial_intr_recv_enable();
   
   put_string("kzload> ");
 

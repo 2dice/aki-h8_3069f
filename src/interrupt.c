@@ -52,6 +52,7 @@ int16 softvec_init(void)
   int16 type;
   for(type = 0; type < SOFTVEC_TYPE_NUM; type++)
     softvec_setintr(type, NULL);
+  softvec_setintr(SOFTVEC_TYPE_SERINTR, intr);
   return 0;
 }
 
