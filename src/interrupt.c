@@ -16,6 +16,7 @@ typedef void (*intr_func_t)(int16 interrupt_subscript, uint32 sp);
 static void RXI1_interrupt(int16 interrupt_subscript, uint32 sp)
     {
       int16 c;
+      int16 i;
       static int8 command[32];
       static int16 len;
       
@@ -38,16 +39,18 @@ static void RXI1_interrupt(int16 interrupt_subscript, uint32 sp)
           command_run();
         }
       /* TODO:コマンドに分離 */
-        else if(!string_compare_at_arbitrary_length(command, "echo", 4))
+        else if(!string_compare_at_arbitrary_length(command, "echo ", 5))
         {
-          put_string(command + 4);
+          put_string(command + 5);
           put_string("\n");
         }
         else
         {
           put_string("unknown.\n");
         }
-      /* TODO:command[]をクリア */
+      /* command[]をクリア */
+        for(i=0; i < len; i++)
+          command[i]=0;
         put_string("kzload> ");
         len = 0;
       }
