@@ -63,7 +63,7 @@ int16 set_SCI0_bitrate(void)
 
 int16 enable_SCI0_serial_interrept(void)
     {
-      SCI0_SCR = SCI0_SCR | 0b11000100;
+      SCI0_SCR = SCI0_SCR | 0b01000000;
       return 0;
     }
 

@@ -12,7 +12,7 @@ void (*vectors[])(void) = {
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-  NULL, NULL, NULL, NULL, intr_serintr, intr_serintr, intr_serintr, intr_serintr,
-  intr_serintr, intr_serintr, intr_serintr, intr_serintr,
-  intr_serintr, intr_serintr, intr_serintr, intr_serintr,
+  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+  NULL, intr_serintr, NULL, NULL,
+  NULL, NULL, NULL, NULL
 };
