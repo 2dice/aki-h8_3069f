@@ -47,7 +47,7 @@ _intr_syscall:
 _RXI1:
 	intr_reg_save
 	mov.l er7,er1
-	mov.w #SOFTVEC_TYPE_SERINTR,r0
+	mov.w #RXI1_VECTOR_SUBSCRIPT,r0
 	jsr   @_interrupt
 	intr_reg_restore
 	rte

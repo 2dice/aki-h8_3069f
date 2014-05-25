@@ -1,10 +1,8 @@
 #include "defines.h"
 #include "lib.h"
 #include "peripheralInterface.h"
-#include "command.h"
 #include "interrupt.h"
 #include "intr.h"
-#include "serial.h"
 
 static int init(void)
 {
@@ -19,7 +17,7 @@ static int init(void)
   set_data_in_memory(&bss_start, 0, (long)&ebss - (long)&bss_start);
 
   /* ソフトウェア割り込みベクタの初期化 */
-  softvec_init();
+  interrupt_init();
 
   serial_init();
 

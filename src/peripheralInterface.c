@@ -60,6 +60,8 @@ int16 put_string(int8 str[])
   return 0;
 }
 
+/* if((int)sizeof(command) < get_string(command)) */
+/*   put_string("command too long\n"); */
 int16 get_string(int8 *store_array)
 {
   int16 i = 0;

@@ -5,15 +5,20 @@
 #include "command.h"
 #include "peripheralInterface.h"
 
-static void intr(softvec_type_t type, uint32 sp)
+extern int8 intrvec;
+#define INTERRUPT_VECTOR_FIRST_ADDRESS (&intrvec)
+/* 割込みハンドラ関数ポインタの定義 */
+typedef void (*intr_func_t)(int16 interrupt_subscript, uint32 sp);
+/* 割り込みベクタの位置 */
+#define INTERRUPT_VECTORS ((intr_func_t *)INTERRUPT_VECTOR_FIRST_ADDRESS)
+
+
+static void RXI1_interrupt(int16 interrupt_subscript, uint32 sp)
     {
       int16 c;
       static int8 command[32];
       static int16 len;
       
-      /* TODO:シリアル受信割込みハンドラへ登録 */
-      /* if((int)sizeof(command) < get_string(command)) */
-      /*   put_string("command too long\n"); */
       c = get_char();
       if(c != '\n')
         {
@@ -32,6 +37,7 @@ static void intr(softvec_type_t type, uint32 sp)
         {
           command_run();
         }
+      /* TODO:コマンドに分離 */
         else if(!string_compare_at_arbitrary_length(command, "echo", 4))
         {
           put_string(command + 4);
@@ -41,32 +47,36 @@ static void intr(softvec_type_t type, uint32 sp)
         {
           put_string("unknown.\n");
         }
+      /* TODO:command[]をクリア */
         put_string("kzload> ");
         len = 0;
       }
     }
 
-/* ソフトウェア割り込みベクタの初期化 */
-int16 softvec_init(void)
+/* 割り込みベクタの設定 */
+int16 set_interrupt_vector
+(int16 subscript, intr_func_t handler_function)
 {
-  int16 type;
-  for(type = 0; type < SOFTVEC_TYPE_NUM; type++)
-    softvec_setintr(type, NULL);
-  softvec_setintr(SOFTVEC_TYPE_SERINTR, intr);
+  INTERRUPT_VECTORS[subscript] = handler_function;
   return 0;
 }
 
-/* ソフトウェア割り込みベクタの設定 */
-int16 softvec_setintr(softvec_type_t type, softvec_handler_t handler)
+/* 割り込みベクタの初期化 */
+int16 interrupt_init(void)
 {
-  SOFTVECS[type] = handler;
+  int16 clear_subscript;
+  for(clear_subscript = 0; clear_subscript < NUMBER_OF_INTERRUPT_VECTORS;
+      clear_subscript++)
+    set_interrupt_vector(clear_subscript, NULL);
+
+  set_interrupt_vector(RXI1_VECTOR_SUBSCRIPT, RXI1_interrupt);
   return 0;
 }
 
-/* 共通割込みハンドラ．ソフトウェア割り込みベクタを見て各ハンドラに分岐する */
-void interrupt(softvec_type_t type, uint32 sp)
+/* 共通割込みハンドラ．割り込みベクタを見て各ハンドラに分岐する */
+void interrupt(int16 interrupt_subscript, uint32 sp)
 {
-  softvec_handler_t handler = SOFTVECS[type];
-  if(handler)
-    handler(type, sp);
+  intr_func_t interrupt_function = INTERRUPT_VECTORS[interrupt_subscript];
+  if(interrupt_function)
+    interrupt_function(interrupt_subscript, sp);
 }
