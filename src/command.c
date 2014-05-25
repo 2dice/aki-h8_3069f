@@ -54,3 +54,9 @@ int16 command_run(void)
     } 
   return 0;
 }
+
+void command_echo(int8 command[], int8 offset)
+{
+  put_string(command + offset);
+  put_string("\n");
+}

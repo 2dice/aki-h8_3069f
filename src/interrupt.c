@@ -38,11 +38,9 @@ static void RXI1_interrupt(int16 interrupt_subscript, uint32 sp)
         {
           command_run();
         }
-      /* TODO:コマンドに分離 */
         else if(!string_compare_at_arbitrary_length(command, "echo ", 5))
         {
-          put_string(command + 5);
-          put_string("\n");
+          command_echo(command, 5);
         }
         else
         {
