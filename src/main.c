@@ -51,6 +51,9 @@ static int init(void)
 {
   extern int data_start_load, data_start, edata, bss_start, ebss;
 
+  /* 割込を無効にする */
+  INTR_DISABLE;
+
   /* PA=VA処理転送 */
   memory_data_copy
       (&data_start, &data_start_load, (long)&edata - (long)&data_start);
@@ -61,16 +64,6 @@ static int init(void)
 
   serial_init();
 
-  return 0;
-}
-
-int main(void)
-{
-  /* 割込を無効にする */
-  INTR_DISABLE;
-
-  init();
-
   put_string("kzload (kozos boot loader) started.\n");
 
   softvec_setintr(SOFTVEC_TYPE_SERINTR, intr);
@@ -80,6 +73,14 @@ int main(void)
 
   /* 割込を有効にする */
   INTR_ENABLE;
+
+  return 0;
+}
+
+int main(void)
+{
+  init();
+
   while(1)
     {
       asm volatile ("sleep");
