@@ -13,13 +13,6 @@
 #define SCI0_SENDING (~SCI0_SSR & 0b10000000)
 #define SCI0_RECEIVING (~SCI0_SSR & 0b01000000)
 
-int16 serial_intr_is_send_enable(void);/* 送信割込有効か? */
-void serial_intr_send_enable(void);/* 送信割込有効化 */
-void serial_intr_send_disable(void);/* 送信割込無効化 */
-int16 serial_intr_is_recv_enable(void);/* 受信割込有効か? */
-void serial_intr_recv_enable(void);/* 受信割込有効化 */
-void serial_intr_recv_disable(void);/* 受信割込無効化 */
-
 int16 disable_SCI0_TxRx(void);
 int16 disable_SCI0_serial_interrupt(void);
 int16 set_SCI0_clock_source_and_SCK_port_status(void);

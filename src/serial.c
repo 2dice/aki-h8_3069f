@@ -1,36 +1,6 @@
 #include "defines.h"
 #include "serial.h"
 
-int16 serial_intr_is_send_enable(void)
-    {
-      return (SCI0_SCR & 0b10000000) ? 1 : 0;
-    }
-
-void serial_intr_send_enable(void)
-    {
-      SCI0_SCR = SCI0_SCR | 0b10000000;
-    }
-
-void serial_intr_send_disable(void)
-    {
-      SCI0_SCR = SCI0_SCR & ~0b10000000;
-    }
-
-int16 serial_intr_is_recv_enable(void)
-    {
-      return (SCI0_SCR & 0b01000000) ? 1 : 0;
-    }
-
-void serial_intr_recv_enable(void)
-    {
-      SCI0_SCR = SCI0_SCR | 0b01000000;
-    }
-
-void serial_intr_recv_disable(void)
-    {
-      SCI0_SCR = SCI0_SCR & ~0b01000000;
-    }
-
 int16 disable_SCI0_TxRx(void)
     {
       SCI0_SCR = SCI0_SCR & ~0b00110000;
