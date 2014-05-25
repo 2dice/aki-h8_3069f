@@ -28,7 +28,7 @@ int16 set_SCI0_bitrate(void);
 int16 enable_SCI0_serial_interrept(void);
 int16 enable_SCI0_TxRx(void);
 
-int16 serial_send_byte(uint8 c); 
+void serial_send_byte(uint8 c); 
 uint8 serial_recv_byte(void);
 
 #endif

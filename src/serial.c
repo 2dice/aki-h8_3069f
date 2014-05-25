@@ -79,14 +79,12 @@ static int16 set_SCI0_sending(void)
       return 0;
     }
 
-int16 serial_send_byte(uint8 c)
+void serial_send_byte(uint8 c)
 {
   while (SCI0_SENDING)
     ;
   SCI0_TDR = c;
   set_SCI0_sending();
-  
-  return 0;
 }
 
 static int16 set_SCI0_receiving(void)

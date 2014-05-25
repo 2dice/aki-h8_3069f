@@ -54,7 +54,7 @@ static void RXI1_interrupt(int16 interrupt_subscript, uint32 sp)
     }
 
 /* 割り込みベクタの設定 */
-int16 set_interrupt_vector
+static int16 set_interrupt_vector
 (int16 subscript, intr_func_t handler_function)
 {
   INTERRUPT_VECTORS[subscript] = handler_function;
@@ -62,7 +62,7 @@ int16 set_interrupt_vector
 }
 
 /* 割り込みベクタの初期化 */
-int16 interrupt_init(void)
+void interrupt_init(void)
 {
   int16 clear_subscript;
   for(clear_subscript = 0; clear_subscript < NUMBER_OF_INTERRUPT_VECTORS;
@@ -70,7 +70,6 @@ int16 interrupt_init(void)
     set_interrupt_vector(clear_subscript, NULL);
 
   set_interrupt_vector(RXI1_VECTOR_SUBSCRIPT, RXI1_interrupt);
-  return 0;
 }
 
 /* 共通割込みハンドラ．割り込みベクタを見て各ハンドラに分岐する */

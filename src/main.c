@@ -16,7 +16,7 @@ static int init(void)
       (&data_start, &data_start_load, (long)&edata - (long)&data_start);
   set_data_in_memory(&bss_start, 0, (long)&ebss - (long)&bss_start);
 
-  /* ソフトウェア割り込みベクタの初期化 */
+  /* 割り込みベクタの初期化 */
   interrupt_init();
 
   serial_init();
