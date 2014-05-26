@@ -8,7 +8,4 @@
 /* 割込無効化 */
 #define INTR_DISABLE asm volatile ("orc.b  #0xc0,ccr")
 
-void interrupt_init(void);
-void interrupt(int16 interrupt_subscript, uint32 sp);
-
 #endif

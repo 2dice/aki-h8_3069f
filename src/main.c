@@ -2,7 +2,6 @@
 #include "lib.h"
 #include "peripheralInterface.h"
 #include "interrupt.h"
-#include "intr.h"
 
 static int init(void)
 {
@@ -16,13 +15,9 @@ static int init(void)
       (&data_start, &data_start_load, (long)&edata - (long)&data_start);
   set_data_in_memory(&bss_start, 0, (long)&ebss - (long)&bss_start);
 
-  /* 割り込みベクタの初期化 */
-  interrupt_init();
-
   serial_init();
 
   put_string("kzload (kozos boot loader) started.\n");
-  
   put_string("kzload> ");
 
   /* 割込を有効にする */
