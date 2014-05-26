@@ -16,6 +16,7 @@ static int init(void)
   set_data_in_memory(&bss_start, 0, (long)&ebss - (long)&bss_start);
 
   serial_init();
+  timer_init();
 
   put_string("kzload (kozos boot loader) started.\n");
   put_string("kzload> ");

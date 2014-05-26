@@ -1,5 +1,6 @@
 #include "defines.h"
 #include "serial.h"
+#include "timer.h"
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
@@ -100,4 +101,26 @@ void put_dec(uint16 value)
     value_size--;
   }
   put_string(dec_pointer + 1);
+}
+
+////////////////////timer interface////////////////////
+void timer_init(void)
+{
+  disable_TMR16ch0();
+  disable_TMR16ch0A_interrupt();
+
+  set_TMR16ch0_clock_source();
+  set_TMR16ch0_counter_reset_condition();
+  set_TIOCA0_pin_function();
+  set_TMR16ch0A_compare_match_register();
+
+  enable_TMR16ch0A_interrept();
+  enable_TMR16ch0();
+}
+
+void clear_TMR16ch0A(void)
+{
+  while(!TMR16ch0_COMPARE_MATCH)
+    ;
+  TMR16_TISRA = TMR16_TISRA & ~0b00000001;
 }

@@ -14,4 +14,7 @@ int16 get_string(int8 *store_array);
 void put_hex(uint32 value, int16 digit_number);
 void put_dec(uint16 value);
 
+void timer_init(void);
+void clear_TMR16ch0A(void);
+
 #endif

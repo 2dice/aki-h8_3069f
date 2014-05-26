@@ -45,3 +45,18 @@ void RXI1(void)
     len = 0;
   }
 }
+
+#pragma interrupt
+void IMIA0(void)
+{
+  static int16 timer_count = 0;
+  
+  clear_TMR16ch0A();
+  timer_count++;
+
+  if(timer_count > 100)
+  {
+    put_string("1sec\n");
+    timer_count = 0;
+  }
+}
