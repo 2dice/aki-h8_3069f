@@ -54,7 +54,7 @@ void IMIA0(void)
   clear_TMR16ch0A();
   timer_count++;
 
-  if(timer_count > 100)
+  if(timer_count >= 100)
   {
     put_string("1sec\n");
     timer_count = 0;
