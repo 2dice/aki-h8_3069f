@@ -10,8 +10,6 @@
 #define TMR16_TISRA  (*(volatile uint8*)0xffff64)
 #define TMR16_TSTR   (*(volatile uint8*)0xffff60)
 
-#define TMR16ch0_COMPARE_MATCH (TMR16_TISRA & 0b00000001)
-
 void disable_TMR16ch0(void);
 void disable_TMR16ch0A_interrupt(void);
 void set_TMR16ch0_clock_source(void);

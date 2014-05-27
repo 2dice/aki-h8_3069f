@@ -120,7 +120,5 @@ void timer_init(void)
 
 void clear_TMR16ch0A(void)
 {
-  while(!TMR16ch0_COMPARE_MATCH)
-    ;
   TMR16_TISRA = TMR16_TISRA & ~0b00000001;
 }
