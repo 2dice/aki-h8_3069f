@@ -1,6 +1,8 @@
 #include "defines.h"
 #include "serial.h"
 #include "timer.h"
+#include "dram.h"
+#include "port.h"
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
@@ -121,4 +123,27 @@ void timer_init(void)
 void clear_TMR16ch0A(void)
 {
   TMR16_TISRA = TMR16_TISRA & ~0b00000001;
+}
+
+////////////////////bus controller interface////////////////////
+void DRAM_init(void)
+{
+  set_area2_access_bit();
+  set_DRAM_refresh_cycle();
+  set_DRAM_refresh_timer_clock_source();
+  set_DRAM_multiplex_controll();
+  set_DRAM_CAS_pin_function();
+  set_DRAM_refresh_enable();
+  set_DRAM_precharge_cycle();
+  set_DRAM_WR_wait_state();
+  set_DRAM_refresh_wait_state();
+  set_DRAM_area();
+  DRAM_wait();
+  set_DRAM_burst_access();
+  set_DRAM_self_refresh_mode_in_software_standby();
+  set_DRAM_RFSH_pin_function();
+
+  set_PORT1_address_output();
+  set_PORT2_address_output();
+  set_PORT82_CS_output();
 }

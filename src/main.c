@@ -17,6 +17,7 @@ static int init(void)
 
   serial_init();
   timer_init();
+  DRAM_init();
 
   put_string("kzload (kozos boot loader) started.\n");
   put_string("kzload> ");

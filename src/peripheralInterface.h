@@ -17,4 +17,6 @@ void put_dec(uint16 value);
 void timer_init(void);
 void clear_TMR16ch0A(void);
 
+void DRAM_init(void);
+
 #endif

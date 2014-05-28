@@ -5,9 +5,9 @@
 #include "command.h"
 #include "elf.h"
 
-extern int16 buffer_start;
+extern int16 dram_start;
 static int32 size = -1;
-static int8 *xmodem_recv_buffer_start_address = (int8 *)(&buffer_start);
+static int8 *xmodem_recv_buffer_start_address = (int8 *)(&dram_start);
 
 int32 command_load(void)
 {
