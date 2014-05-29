@@ -14,13 +14,12 @@ void set_DRAM_refresh_cycle(void)
 
 void set_DRAM_refresh_timer_clock_source(void)
 {
-  RTMCSR = RTMCSR |  0b00000001;
-  RTMCSR = RTMCSR & ~0b00000110;
+  RTMCSR = RTMCSR |  0b00001000;
+  RTMCSR = RTMCSR & ~0b00110000;
 }
 
 void set_DRAM_multiplex_controll(void)
 {
-/* TODO:9bitアクセスにしてみる */
   DRCRB = DRCRB |  0b10000000;
   DRCRB = DRCRB & ~0b01000000;
 }
@@ -78,9 +77,8 @@ void DRAM_wait(void)
 
   for(i = 0; i < 15; i++)
   {
- /* TODO:whileから抜けられないバグを修正 */
-    /* while(~RTMCSR & 0b10000000) */
-    /*   ; */
-    /* RTMCSR = RTMCSR & ~0b10000000; */
+    while(~RTMCSR & 0b10000000)
+      ;
+    RTMCSR = RTMCSR & ~0b10000000;
   }
 }

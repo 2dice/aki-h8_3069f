@@ -138,10 +138,10 @@ void DRAM_init(void)
   set_DRAM_WR_wait_state();
   set_DRAM_refresh_wait_state();
   set_DRAM_area();
-  DRAM_wait();
   set_DRAM_burst_access();
   set_DRAM_self_refresh_mode_in_software_standby();
   set_DRAM_RFSH_pin_function();
+  DRAM_wait();
 
   set_PORT1_address_output();
   set_PORT2_address_output();
