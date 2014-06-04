@@ -19,14 +19,17 @@ H8WRITE = ../tools/h8write/h8write
 # Linux:/dev/ttySx, Linux(USB):/dev/ttyUSBx, Windows:comX
 H8WRITE_SERDEV = /dev/cu.PL2303-00004006
 
-OBJS  = vector.o startup.o main.o interrupt.o 
-OBJS += lib.o serial.o xmodem.o peripheralInterface.o command.o elf.o timer.o dram.o port.o
+VPATH = src : ./peripheral
+OBJS  = vector.o startup.o main.o interrupt.o
+OBJS += lib.o xmodem.o peripheralInterface.o command.o elf.o
+OBJS += serial.o timer.o dram.o port.o
 
 TARGET = kzload
 
 CFLAGS = -Wall -mh -nostdinc -nostdlib -fno-builtin
 #CFLAGS += -mint32 # intを32ビットにすると掛算／割算ができなくなる
 CFLAGS += -I.
+CFLAGS += -I./peripheral
 #CFLAGS += -g
 CFLAGS += -Os
 CFLAGS += -DKZLOAD

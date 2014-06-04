@@ -37,7 +37,7 @@ int16 command_run(void)
 {
   int8 *entry_point;
   void (*f)(void);
-  
+
   entry_point = elf_load(xmodem_recv_buffer_start_address);
   if(!entry_point)
     {
@@ -51,7 +51,7 @@ int16 command_run(void)
       put_string("\n");
       f = (void (*)(void))entry_point;
       f();
-    } 
+    }
   return 0;
 }
 
