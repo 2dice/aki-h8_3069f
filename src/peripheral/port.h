@@ -7,9 +7,11 @@
 #define P2DDR (*(volatile uint8*)0xfee001)
 #define P1DDR (*(volatile uint8*)0xfee000)
 
-void set_PORT1_address_output(void);
-void set_PORT2_address_output(void);
-void set_PORT82_CS_output(void);
-
+void
+set_PORT1_address_output (void);
+void
+set_PORT2_address_output (void);
+void
+set_PORT82_CS_output (void);
 
 #endif

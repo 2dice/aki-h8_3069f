@@ -3,6 +3,7 @@
 
 #include "defines.h"
 
-int32 xmodem_recv(int8 *store_address);
+int32
+xmodem_recv (int8 *store_address);
 
 #endif

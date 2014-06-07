@@ -10,13 +10,21 @@
 #define TMR16_TISRA  (*(volatile uint8*)0xffff64)
 #define TMR16_TSTR   (*(volatile uint8*)0xffff60)
 
-void disable_TMR16ch0(void);
-void disable_TMR16ch0A_interrupt(void);
-void set_TMR16ch0_clock_source(void);
-void set_TMR16ch0_counter_reset_condition(void);
-void set_TIOCA0_pin_function(void);
-void set_TMR16ch0A_compare_match_register(void);
-void enable_TMR16ch0A_interrept(void);
-void enable_TMR16ch0(void);
+void
+disable_TMR16ch0 (void);
+void
+disable_TMR16ch0A_interrupt (void);
+void
+set_TMR16ch0_clock_source (void);
+void
+set_TMR16ch0_counter_reset_condition (void);
+void
+set_TIOCA0_pin_function (void);
+void
+set_TMR16ch0A_compare_match_register (void);
+void
+enable_TMR16ch0A_interrept (void);
+void
+enable_TMR16ch0 (void);
 
 #endif
