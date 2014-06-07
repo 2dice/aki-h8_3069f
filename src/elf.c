@@ -22,31 +22,52 @@ struct elf_header
     uint8 reserve[7];
   } id;
 
-  int16 type; /* 種別(オブジェクトファイル,実行形式ファイルなど) */
-  int16 arch; /* CPUアーキテクチャ(h8,i386など) */
-  int32 version; /* ELF形式のバージョン */
-  int32 entry_point; /* 実行開始アドレス(エントリ・ポイント) */
-  int32 program_header_offset; /* プログラムヘッダテーブルの位置 */
-  int32 section_header_offset; /* セクションヘッダテーブルの位置 */
-  int32 flags; /* フラグ */
-  int16 header_size; /* ELFヘッダのサイズ */
-  int16 program_header_size; /* プログラムヘッダのサイズ */
-  int16 program_header_number; /* プログラムヘッダの個数 */
-  int16 section_header_size; /* セクションヘッダのサイズ */
-  int16 section_header_number; /* セクションヘッダの個数 */
-  int16 section_name_index; /* セクション名を格納するセクションの番号 */
+  /* 種別(オブジェクトファイル,実行形式ファイルなど) */
+  int16 type;
+  /* CPUアーキテクチャ(h8,i386など) */
+  int16 arch;
+  /* ELF形式のバージョン */
+  int32 version;
+  /* 実行開始アドレス(エントリ・ポイント) */
+  int32 entry_point;
+  /* プログラムヘッダテーブルの位置 */
+  int32 program_header_offset;
+  /* セクションヘッダテーブルの位置 */
+  int32 section_header_offset;
+  /* フラグ */
+  int32 flags;
+  /* ELFヘッダのサイズ */
+  int16 header_size;
+  /* プログラムヘッダのサイズ */
+  int16 program_header_size;
+  /* プログラムヘッダの個数 */
+  int16 program_header_number;
+  /* セクションヘッダのサイズ */
+  int16 section_header_size;
+  /* セクションヘッダの個数 */
+  int16 section_header_number;
+  /* セクション名を格納するセクションの番号 */
+  int16 section_name_index;
 };
 
 struct elf_program_header
 {
-  int32 type; /* セグメントの種別 */
-  int32 offset; /* セグメントのELFファイル上での位置 */
-  int32 virturl_address; /* セグメントを展開する論理アドレス(VA) */
-  int32 physical_address; /* セグメントを展開する物理アドレス(PA) */
-  int32 file_size; /* セグメントのELFファイル上でのサイズ */
-  int32 memory_size; /* セグメントのメモリ上でのサイズ */
-  int32 flags; /* 各種フラグ */
-  int32 align; /* セグメントのアラインメント */
+  /* セグメントの種別 */
+  int32 type;
+  /* セグメントのELFファイル上での位置 */
+  int32 offset;
+  /* セグメントを展開する論理アドレス(VA) */
+  int32 virturl_address;
+  /* セグメントを展開する物理アドレス(PA) */
+  int32 physical_address;
+  /* セグメントのELFファイル上でのサイズ */
+  int32 file_size;
+  /* セグメントのメモリ上でのサイズ */
+  int32 memory_size;
+  /* 各種フラグ */
+  int32 flags;
+  /* セグメントのアラインメント */
+  int32 align;
 };
 
 static bool
