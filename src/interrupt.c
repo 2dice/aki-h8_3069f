@@ -21,28 +21,28 @@ RXI1 (void)
   else
     {
       if (!string_compare_at_arbitrary_length (command, "load", 4))
-	{
-	  command_load ();
-	}
+        {
+          command_load ();
+        }
       else if (!string_compare_at_arbitrary_length (command, "dump", 4))
-	{
-	  command_dump ();
-	}
+        {
+          command_dump ();
+        }
       else if (!string_compare_at_arbitrary_length (command, "run", 3))
-	{
-	  command_run ();
-	}
+        {
+          command_run ();
+        }
       else if (!string_compare_at_arbitrary_length (command, "echo ", 5))
-	{
-	  command_echo (command, 5);
-	}
+        {
+          command_echo (command, 5);
+        }
       else
-	{
-	  put_string ("unknown.\n");
-	}
+        {
+          put_string ("unknown.\n");
+        }
       /* command[]をクリア */
       for (i = 0; i < len; i++)
-	command[i] = 0;
+        command[i] = 0;
       put_string ("kzload> ");
       len = 0;
     }

@@ -22,6 +22,6 @@ int16
 string_compare (const int8 *A_pointer, const int8 *B_pointer);
 int16
 string_compare_at_arbitrary_length (const int8 *A_pointer,
-				    const int8 *B_pointer, int16 compare_length);
+                                    const int8 *B_pointer, int16 compare_length);
 
 #endif

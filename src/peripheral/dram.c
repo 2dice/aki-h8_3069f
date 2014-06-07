@@ -92,7 +92,7 @@ DRAM_wait (void)
   for (i = 0; i < 15; i++)
     {
       while (~RTMCSR & 0b10000000)
-	;
+        ;
       RTMCSR = RTMCSR & ~0b10000000;
     }
 }

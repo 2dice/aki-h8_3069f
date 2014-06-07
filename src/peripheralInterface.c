@@ -76,7 +76,7 @@ get_string (int8 *store_array)
     {
       c = get_char ();
       if (c == '\n')
-	c = '\0';
+        c = '\0';
       store_array[i++] = c;
     }
   while (c);

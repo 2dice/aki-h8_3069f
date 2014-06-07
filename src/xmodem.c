@@ -13,7 +13,7 @@
 
 #define BLOCK_SIZE 128
 
-/* serial_send_byteで待ってるのに無いと文字化けする，最適化解除でも変わらず． */
+/* TODO：serial_send_byteで待ってるのに無いと文字化けする，最適化解除でも変わらず． */
 static void
 xmodem_wait ()
 {
@@ -31,10 +31,10 @@ xmodem_polling (void)
     {
       /* TODO：割込に変更 */
       if (++i >= 2000000)
-	{
-	  i = 0;
-	  put_byte_data (NAK);
-	}
+        {
+          i = 0;
+          put_byte_data (NAK);
+        }
     }
   return 0;
 }
@@ -81,43 +81,43 @@ xmodem_recv (int8 *store_address)
   while (1)
     {
       if (!receiving)
-	xmodem_polling ();
+        xmodem_polling ();
 
       c = get_byte_data ();
 
       /* 転送終了 */
       if (c == EOT)
-	{
-	  put_byte_data (ACK);
-	  break;
-	}
+        {
+          put_byte_data (ACK);
+          break;
+        }
       /* 転送中断 */
       else if (c == CAN)
-	{
-	  return -1;
-	}
+        {
+          return -1;
+        }
       /* 128byteブロックデータのヘッダ */
       else if (c == SOH)
-	{
-	  receiving++;
-	  read_block_size = xmodem_read_block (block_number, store_address);
-	  if (read_block_size < 0)
-	    {
-	      put_byte_data (NAK);
-	    }
-	  else
-	    {
-	      block_number++;
-	      total_read_size += read_block_size;
-	      store_address += read_block_size;
-	      put_byte_data (ACK);
-	    }
-	}
+        {
+          receiving++;
+          read_block_size = xmodem_read_block (block_number, store_address);
+          if (read_block_size < 0)
+            {
+              put_byte_data (NAK);
+            }
+          else
+            {
+              block_number++;
+              total_read_size += read_block_size;
+              store_address += read_block_size;
+              put_byte_data (ACK);
+            }
+        }
       else
-	{
-	  if (receiving)
-	    return -1;
-	}
+        {
+          if (receiving)
+            return -1;
+        }
     }
   xmodem_wait ();
 
