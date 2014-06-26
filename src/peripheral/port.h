@@ -3,6 +3,8 @@
 
 #include "defines.h"
 
+#define PADR  (*(volatile uint8*)0xffffd9)
+#define PADDR (*(volatile uint8*)0xfee009)
 #define P8DDR (*(volatile uint8*)0xfee007)
 #define P2DDR (*(volatile uint8*)0xfee001)
 #define P1DDR (*(volatile uint8*)0xfee000)
@@ -13,5 +15,7 @@ void
 set_PORT2_address_output (void);
 void
 set_PORT82_CS_output (void);
+void
+set_PORTA_output (void);
 
 #endif

@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "dram.h"
 #include "port.h"
+#include "LCD.h"
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
@@ -119,8 +120,8 @@ put_dec (uint16 value)
 }
 
 ////////////////////timer interface////////////////////
-void
-timer_init (void)
+static void
+timer16_0ch_init (void)
 {
   disable_TMR16ch0 ();
   disable_TMR16ch0A_interrupt ();
@@ -134,10 +135,63 @@ timer_init (void)
   enable_TMR16ch0 ();
 }
 
+static void
+timer16_1ch_init (void)
+{
+  disable_TMR16ch1 ();
+  disable_TMR16ch1A_interrupt ();
+
+  set_TMR16ch1_clock_source ();
+  set_TMR16ch1_counter_reset_condition ();
+  set_TIOCA1_pin_function ();
+}
+
+void
+timer_init (void)
+{
+  timer16_0ch_init();
+  timer16_1ch_init();
+}
+
 void
 clear_TMR16ch0A (void)
 {
   TMR16_TISRA = TMR16_TISRA & ~0b00000001;
+}
+
+void
+wait_ms(uint16 time)
+{
+  int16 i;
+
+  /* 1ms */
+  TMR16_GRA1H = 0x4E;
+  TMR16_GRA1L = 0x20;
+  enable_TMR16ch1 ();
+
+  for(i=0; i<time; i++)
+  {
+    wait_count ();
+  }
+  disable_TMR16ch1 ();
+
+}
+
+void
+wait_us(uint16 time)
+{
+  int16 i;
+
+  /* 1us */
+  TMR16_GRA1H = 0x00;
+  TMR16_GRA1L = 0x14;
+  enable_TMR16ch1 ();
+
+  for(i=0; i<time; i++)
+  {
+    wait_count ();
+  }
+  disable_TMR16ch1 ();
 }
 
 ////////////////////bus controller interface////////////////////
@@ -162,4 +216,63 @@ DRAM_init (void)
   set_PORT1_address_output ();
   set_PORT2_address_output ();
   set_PORT82_CS_output ();
+}
+
+////////////////////LCD interface////////////////////
+void
+LCD_init(void)
+{
+  set_PORTA_output();
+
+  wait_ms(20);
+  set_LCD_8bit_mode();
+  wait_ms(5);
+  set_LCD_8bit_mode();
+  wait_ms(5);
+  set_LCD_8bit_mode();
+  wait_ms(5);
+  set_LCD_4bit_mode();
+  wait_ms(5);
+  set_LCD_2line_mode_in_4bit_mode();
+  wait_us(50);
+  disable_LCD_display();
+  wait_us(50);
+  enable_LCD_display();
+  wait_us(50);
+  set_LCD_entry_mode_right();
+  wait_us(50);
+}
+
+void
+send_LCD_E(uint8 bit)
+{
+  wait_us(1);
+
+  if(bit==0)
+    PADR = PADR & ~0b00000001;
+  else
+    PADR = PADR |  0b00000001;
+}
+
+void
+send_LCD_RS(uint8 bit)
+{
+  if(bit==0)
+    PADR = PADR & ~0b00000010;
+  else
+    PADR = PADR |  0b00000010;
+}
+
+void
+send_LCD_data(uint8 data)
+{
+  PADR = PADR | (data & 0xF0);
+  PADR = PADR & (data | 0x0F);
+}
+
+void
+put_LCD(uint8 *str)
+{
+  LCD_clear();
+  LCD_display(str);
 }

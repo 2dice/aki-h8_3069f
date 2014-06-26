@@ -19,3 +19,10 @@ set_PORT82_CS_output (void)
 {
   P8DDR = P8DDR | 0b00000100;
 }
+
+void
+set_PORTA_output (void)
+{
+  PADDR = PADDR | 0b11111111;
+  PADR = PADR & ~0b11111111;
+}

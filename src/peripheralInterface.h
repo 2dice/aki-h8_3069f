@@ -28,8 +28,23 @@ void
 timer_init (void);
 void
 clear_TMR16ch0A (void);
+void
+wait_ms(uint16 time);
+void
+wait_us(uint16 time);
 
 void
 DRAM_init (void);
+
+void
+LCD_init (void);
+void
+send_LCD_E(uint8 bit);
+void
+send_LCD_RS(uint8 bit);
+void
+send_LCD_data(uint8 data);
+void
+put_LCD(uint8 *str);
 
 #endif

@@ -19,9 +19,11 @@ init (void)
   serial_init ();
   timer_init ();
   DRAM_init ();
+  LCD_init();
 
   put_string ("kzload (kozos boot loader) started.\n");
   put_string ("kzload> ");
+  put_LCD((uint8 *)"Hello,world!");
 
   /* 割込を有効にする */
   INTR_ENABLE;
