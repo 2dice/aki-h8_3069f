@@ -81,7 +81,7 @@ set_TMR16ch1_clock_source (void)
 void
 set_TMR16ch1_counter_reset_condition (void)
 {
-  TMR16_16TCR1 = TMR16_16TCR1 |  0b00100000;
+  TMR16_16TCR1 = TMR16_16TCR1 | 0b00100000;
   TMR16_16TCR1 = TMR16_16TCR1 & ~0b01000000;
 }
 
@@ -104,9 +104,8 @@ clear_TMR16ch1A (void)
   TMR16_TISRA = TMR16_TISRA & ~0b00000010;
 }
 
-
 void
-wait_count(void)
+wait_count (void)
 {
   while (TMR16CH1_COUNTING)
     ;

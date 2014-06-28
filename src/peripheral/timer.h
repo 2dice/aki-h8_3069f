@@ -49,6 +49,6 @@ void
 set_TIOCA1_pin_function (void);
 
 void
-wait_count(void);
+wait_count (void);
 
 #endif
