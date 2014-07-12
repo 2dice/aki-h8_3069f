@@ -4,6 +4,7 @@
 #include "dram.h"
 #include "port.h"
 #include "LCD.h"
+#include "NIC.h"
 #include "peripheralInterface.h"
 
 ////////////////////serial interface////////////////////
@@ -275,4 +276,92 @@ put_LCD (uint8 *str)
 {
   LCD_clear ();
   LCD_display (str);
+}
+
+////////////////////NIC interface////////////////////
+void
+NIC_init (void)
+{
+  uint8 *source_MAC_address;
+
+  set_PORT1_address_output ();
+  set_PORT2_address_output ();
+  /* set_IRQ5_sense_low_level(); */
+  /* enable_IRQ5() */
+
+  NIC_soft_reset ();
+
+  /* page0 setting (read MAC address) */
+  disable_NIC_set_page0 ();
+  set_NIC_data_mode();
+  set_NIC_DMA_data_size();
+  stop_NIC_packet();
+  set_NIC_TxRx_page();
+  disable_NIC_interrupt();
+  clear_NIC_interrupt_flag();
+
+  set_NIC_MAC_address_size();
+  set_NIC_MAC_start_address();
+  start_NIC_page0_remoteDMA();
+  source_MAC_address = read_NIC_MAC_address();
+
+  /* page1 setting (set MAC address) */
+  disable_NIC_set_page1 ();
+  set_NIC_MAC_address(source_MAC_address);
+  set_NIC_receive_data_start_address();
+  set_NIC_multicast_address ();
+
+  disable_NIC_set_page0 ();
+  correspond_to_broadcast_packet ();
+  start_NIC_page0 ();
+  set_NIC_normal_send_mode ();
+  disable_NIC_interrupt();
+}
+
+void
+IP_address_init (void)
+{
+  set_IP_address ();
+}
+
+void
+read_ARP_packet (void)
+{
+  uint8 packet[256];
+  ARP_PACKET *arp_packet;
+  PING_PACKET *ping_packet;
+
+  while (1) /* 無限ループ */
+  {
+    if ((int16)packet_receive(packet) != 1) /* パケットを受信したとき */
+    {
+      arp_packet = (ARP_PACKET *)packet; /* packetをARP_PACKET構造体に当てはめる */
+      if ((arp_packet -> eth_ethernet_type == 0x0806) && 
+          /* ARPのパケットのとき */
+          (IP_compare(arp_packet -> arp_dst_IP, get_src_IP()) == 0) && 
+          /* パケットに記述されている宛先IPアドレスが送信元IPアドレスに一致したとき */
+          (arp_packet -> arp_operation == 1)
+          /* ARPリクエストのとき */
+          )
+      {
+        put_string ("arp");
+        ARP_reply(packet); /* ARPリプライ */
+      }
+         
+      ping_packet = (PING_PACKET *)packet; /* packetをPING_PACKET構造体に当てはめる */
+      if ((ping_packet -> eth_ethernet_type == 0x0800) &&
+          /* IPのパケットのとき */
+          (IP_compare(ping_packet -> ip_dst_IP, get_src_IP()) == 0) &&
+          /* パケットに記述されている宛先IPアドレスが送信元IPアドレスに一致したとき */
+          (ping_packet -> ip_protocol == 1) &&
+          /* ICMPのパケットのとき */
+          (ping_packet -> ping_type == 8)
+          /* pingリクエストのとき */
+          )
+      {
+        put_string ("ping");
+        ping_reply(packet); /* pingリプライ */
+      }
+    }
+  }
 }

@@ -22,7 +22,7 @@ H8WRITE_SERDEV = /dev/cu.PL2303-00004006
 VPATH = src : ./peripheral
 OBJS  = vector.o startup.o main.o interrupt.o
 OBJS += lib.o xmodem.o peripheralInterface.o command.o elf.o
-OBJS += serial.o timer.o dram.o port.o LCD.o
+OBJS += serial.o timer.o dram.o port.o LCD.o NIC.o
 
 TARGET = kzload
 

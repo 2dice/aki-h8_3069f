@@ -20,6 +20,8 @@ init (void)
   timer_init ();
   DRAM_init ();
   LCD_init ();
+  NIC_init ();
+  IP_address_init ();
 
   put_string ("kzload (kozos boot loader) started.\n");
   put_string ("kzload> ");
@@ -27,6 +29,8 @@ init (void)
 
   /* 割込を有効にする */
   INTR_ENABLE;
+
+  read_ARP_packet ();
 
   return 0;
 }
