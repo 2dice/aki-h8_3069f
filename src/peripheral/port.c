@@ -42,6 +42,12 @@ enable_IRQ5 (void)
   IER = IER | 0b00100000;
 }
 
+void
+clear_IRQ5_interrupt_flag(void)
+{
+  ISR = ISR & ~0b00100000;
+}
+
 ////////////////////PORTA////////////////////
 void
 set_PORTA_output (void)

@@ -5,6 +5,7 @@
 
 #define PADR  (*(volatile uint8*)0xffffd9)
 #define IPRA  (*(volatile uint8*)0xfee018)
+#define ISR   (*(volatile uint8*)0xfee016)
 #define IER   (*(volatile uint8*)0xfee015)
 #define ISCR  (*(volatile uint8*)0xfee014)
 #define PADDR (*(volatile uint8*)0xfee009)
@@ -24,6 +25,8 @@ void
 set_IRQ5_sense_low_level (void);
 void
 enable_IRQ5 (void);
+void
+clear_IRQ5_interrupt_flag(void);
 void
 set_PORTA_output (void);
 

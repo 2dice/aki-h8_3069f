@@ -118,12 +118,21 @@ set_NIC_TxRx_page(void)
 void
 disable_NIC_interrupt(void)
 {
+  disable_NIC_set_page0 ();
   NIC_write (NIC_IMR, 0x00);
+}
+
+void
+enable_NIC_interrupt(void)
+{
+  start_NIC_page0 ();
+  NIC_write (NIC_IMR, 0x01);
 }
 
 void
 clear_NIC_interrupt_flag(void)
 {
+  start_NIC_page0 ();
   NIC_write (NIC_ISR, 0xFF);
 }
 
@@ -161,8 +170,6 @@ read_NIC_MAC_address(void)
     source_MAC_address[i] = NIC_read(NIC_RDMAP); 
     /* dummy data */
     NIC_read(NIC_RDMAP); 
-    put_hex(source_MAC_address[i], 2);
-    put_hex(source_MAC_address[i + 1], 2);
   }
 
   /* wait remote DMA finish */

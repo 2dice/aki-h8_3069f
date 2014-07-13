@@ -63,3 +63,10 @@ IMIA0 (void)
       timer_count = 0;
     }
 }
+
+#pragma interrupt
+void
+IRQ5 (void)
+{
+  read_ARP_packet ();
+}

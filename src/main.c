@@ -29,9 +29,7 @@ init (void)
 
   /* 割込を有効にする */
   INTR_ENABLE;
-
-  read_ARP_packet ();
-
+  
   return 0;
 }
 

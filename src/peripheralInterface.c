@@ -286,8 +286,9 @@ NIC_init (void)
 
   set_PORT1_address_output ();
   set_PORT2_address_output ();
-  /* set_IRQ5_sense_low_level(); */
-  /* enable_IRQ5() */
+  set_IRQ5_sense_low_level();
+  clear_IRQ5_interrupt_flag();
+  enable_IRQ5();
 
   NIC_soft_reset ();
 
@@ -315,7 +316,8 @@ NIC_init (void)
   correspond_to_broadcast_packet ();
   start_NIC_page0 ();
   set_NIC_normal_send_mode ();
-  disable_NIC_interrupt();
+  clear_NIC_interrupt_flag();
+  enable_NIC_interrupt();
 }
 
 void
@@ -331,37 +333,36 @@ read_ARP_packet (void)
   ARP_PACKET *arp_packet;
   PING_PACKET *ping_packet;
 
-  while (1) /* 無限ループ */
+  if ((int16)packet_receive(packet) != 1) /* パケットを受信したとき */
   {
-    if ((int16)packet_receive(packet) != 1) /* パケットを受信したとき */
+    arp_packet = (ARP_PACKET *)packet; /* packetをARP_PACKET構造体に当てはめる */
+    if ((arp_packet -> eth_ethernet_type == 0x0806) && 
+        /* ARPのパケットのとき */
+        (IP_compare(arp_packet -> arp_dst_IP, get_src_IP()) == 0) && 
+        /* パケットに記述されている宛先IPアドレスが送信元IPアドレスに一致したとき */
+        (arp_packet -> arp_operation == 1)
+        /* ARPリクエストのとき */
+        )
     {
-      arp_packet = (ARP_PACKET *)packet; /* packetをARP_PACKET構造体に当てはめる */
-      if ((arp_packet -> eth_ethernet_type == 0x0806) && 
-          /* ARPのパケットのとき */
-          (IP_compare(arp_packet -> arp_dst_IP, get_src_IP()) == 0) && 
-          /* パケットに記述されている宛先IPアドレスが送信元IPアドレスに一致したとき */
-          (arp_packet -> arp_operation == 1)
-          /* ARPリクエストのとき */
-          )
-      {
-        put_string ("arp");
-        ARP_reply(packet); /* ARPリプライ */
-      }
+      put_string ("arp");
+      ARP_reply(packet); /* ARPリプライ */
+    }
          
-      ping_packet = (PING_PACKET *)packet; /* packetをPING_PACKET構造体に当てはめる */
-      if ((ping_packet -> eth_ethernet_type == 0x0800) &&
-          /* IPのパケットのとき */
-          (IP_compare(ping_packet -> ip_dst_IP, get_src_IP()) == 0) &&
-          /* パケットに記述されている宛先IPアドレスが送信元IPアドレスに一致したとき */
-          (ping_packet -> ip_protocol == 1) &&
-          /* ICMPのパケットのとき */
-          (ping_packet -> ping_type == 8)
-          /* pingリクエストのとき */
-          )
-      {
-        put_string ("ping");
-        ping_reply(packet); /* pingリプライ */
-      }
+    ping_packet = (PING_PACKET *)packet; /* packetをPING_PACKET構造体に当てはめる */
+    if ((ping_packet -> eth_ethernet_type == 0x0800) &&
+        /* IPのパケットのとき */
+        (IP_compare(ping_packet -> ip_dst_IP, get_src_IP()) == 0) &&
+        /* パケットに記述されている宛先IPアドレスが送信元IPアドレスに一致したとき */
+        (ping_packet -> ip_protocol == 1) &&
+        /* ICMPのパケットのとき */
+        (ping_packet -> ping_type == 8)
+        /* pingリクエストのとき */
+        )
+    {
+      put_string ("ping");
+      ping_reply(packet); /* pingリプライ */
     }
   }
+  clear_IRQ5_interrupt_flag();
+  clear_NIC_interrupt_flag();
 }

@@ -65,6 +65,8 @@ set_NIC_TxRx_page(void);
 void
 disable_NIC_interrupt(void);
 void
+enable_NIC_interrupt(void);
+void
 clear_NIC_interrupt_flag(void);
 
 void
