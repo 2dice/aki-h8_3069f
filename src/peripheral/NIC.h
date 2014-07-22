@@ -57,11 +57,11 @@ disable_NIC_set_page0 (void);
 void
 set_NIC_data_mode (void);
 void
-set_NIC_DMA_data_size (void);
+clear_NIC_DMA_data_size (void);
 void
 stop_NIC_packet(void);
 void
-set_NIC_TxRx_page(void);
+set_NIC_TxRx_buffer_address(void);
 void
 disable_NIC_interrupt(void);
 void

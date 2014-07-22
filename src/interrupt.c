@@ -20,6 +20,7 @@ RXI1 (void)
     }
   else
     {
+   /* TODO:enumでswitch文に変更 */
       if (!string_compare_at_arbitrary_length (command, "load", 4))
         {
           command_load ();
@@ -68,5 +69,6 @@ IMIA0 (void)
 void
 IRQ5 (void)
 {
+/* TODO:enumでswitch文に変更,enumはLAN.cで定義し判定もそちらで行う．ARP,PING */
   read_ARP_packet ();
 }

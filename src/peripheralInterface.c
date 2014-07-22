@@ -292,12 +292,13 @@ NIC_init (void)
 
   NIC_soft_reset ();
 
+/* TODO:関数化(page0_initial_setting().中身はNIC.cに) */
   /* page0 setting (read MAC address) */
   disable_NIC_set_page0 ();
   set_NIC_data_mode();
-  set_NIC_DMA_data_size();
+  clear_NIC_DMA_data_size();
   stop_NIC_packet();
-  set_NIC_TxRx_page();
+  set_NIC_TxRx_buffer_address();
   disable_NIC_interrupt();
   clear_NIC_interrupt_flag();
 
@@ -306,6 +307,7 @@ NIC_init (void)
   start_NIC_page0_remoteDMA();
   source_MAC_address = read_NIC_MAC_address();
 
+/* TODO:関数化(page1_initial_setting()) */
   /* page1 setting (set MAC address) */
   disable_NIC_set_page1 ();
   set_NIC_MAC_address(source_MAC_address);
@@ -326,6 +328,7 @@ IP_address_init (void)
   set_IP_address ();
 }
 
+/* TODO:LAN.cに移動 */
 void
 read_ARP_packet (void)
 {
@@ -333,6 +336,7 @@ read_ARP_packet (void)
   ARP_PACKET *arp_packet;
   PING_PACKET *ping_packet;
 
+/* TODO:判定条件を関数にしてこのファイルに残す */
   if ((int16)packet_receive(packet) != 1) /* パケットを受信したとき */
   {
     arp_packet = (ARP_PACKET *)packet; /* packetをARP_PACKET構造体に当てはめる */
@@ -363,6 +367,7 @@ read_ARP_packet (void)
       ping_reply(packet); /* pingリプライ */
     }
   }
+/* TODO:ラップしてinterrupt.cから呼ぶ */
   clear_IRQ5_interrupt_flag();
   clear_NIC_interrupt_flag();
 }
