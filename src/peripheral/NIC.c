@@ -9,159 +9,142 @@ static uint8 source_MAC_address[6] = {};
 /* TODO:ld.scrに移動 */
 #define NIC_START_ADDRESS (0x200000)
 #define MAC_ADDRESS_SIZE (6)
-#define NIC_REMOTE_DMA_DONE (NIC_read(NIC_INTERRUPT_STATUS_REGISTER) & 0x40) 
+#define NIC_REMOTE_DMA_DONE (NIC_INTERRUPT_STATUS_REGISTER & 0x40) 
 
-////////////////////NIC_offset_address////////////////////
-#define NIC_COMMAND_REGISTER 0x00
-#define NIC_REMOTE_DMA_PORT  0x10
-#define NIC_RESET_PORT       0x18
+////////////////////NIC_address////////////////////
+#define NIC_COMMAND_REGISTER (*(volatile uint8*)(NIC_START_ADDRESS + 0x00))
+#define NIC_REMOTE_DMA_PORT  (*(volatile uint8*)(NIC_START_ADDRESS + 0x10))
+#define NIC_RESET_PORT       (*(volatile uint8*)(NIC_START_ADDRESS + 0x18))
 
 /* page0 */
-#define NIC_PAGE_START_REGISTER            0x01
-#define NIC_PAGE_STOP_REGISTER             0x02
-#define NIC_BOUNDARY_REGISTER              0x03  /* get_boundary_address */
-#define NIC_TRANSMIT_PAGE_START_REGISTER   0x04
-#define NIC_TRANSMIT_BYTE_COUNT_REGISTER0  0x05  /* set_transmit_packet_size */
-#define NIC_TRANSMIT_BYTE_COUNT_REGISTER1  0x06  /* set_transmit_packet_size */
-#define NIC_INTERRUPT_STATUS_REGISTER      0x07
-#define NIC_REMOTE_START_ADDRESS_REGISTER0 0x08
-#define NIC_REMOTE_START_ADDRESS_REGISTER1 0x09  /* set_remote_DMA_start_address */
-#define NIC_REMOTE_BYTE_COUNT_REGISTER0    0x0A
-#define NIC_REMOTE_BYTE_COUNT_REGISTER1    0x0B
-#define NIC_RECEIVE_CONFIGRATION_REGISTER  0x0C
-#define NIC_TRANSMIT_CONFIGRATION_REGISTER 0x0D
-#define NIC_DATA_CONFIGRATION_REGISTER     0x0E
-#define NIC_INTERRUPT_MASK_REGISTER        0x0F
+#define NIC_PAGE_START_REGISTER            (*(volatile uint8*)(NIC_START_ADDRESS + 0x01))
+#define NIC_PAGE_STOP_REGISTER             (*(volatile uint8*)(NIC_START_ADDRESS + 0x02))
+#define NIC_BOUNDARY_REGISTER              (*(volatile uint8*)(NIC_START_ADDRESS + 0x03))  /* get_boundary_address */
+#define NIC_TRANSMIT_PAGE_START_REGISTER   (*(volatile uint8*)(NIC_START_ADDRESS + 0x04))
+#define NIC_TRANSMIT_BYTE_COUNT_REGISTER0  (*(volatile uint8*)(NIC_START_ADDRESS + 0x05))  /* set_transmit_packet_size */
+#define NIC_TRANSMIT_BYTE_COUNT_REGISTER1  (*(volatile uint8*)(NIC_START_ADDRESS + 0x06))  /* set_transmit_packet_size */
+#define NIC_INTERRUPT_STATUS_REGISTER      (*(volatile uint8*)(NIC_START_ADDRESS + 0x07))
+#define NIC_REMOTE_START_ADDRESS_REGISTER0 (*(volatile uint8*)(NIC_START_ADDRESS + 0x08))
+#define NIC_REMOTE_START_ADDRESS_REGISTER1 (*(volatile uint8*)(NIC_START_ADDRESS + 0x09))  /* set_remote_DMA_start_address */
+#define NIC_REMOTE_BYTE_COUNT_REGISTER0    (*(volatile uint8*)(NIC_START_ADDRESS + 0x0A))
+#define NIC_REMOTE_BYTE_COUNT_REGISTER1    (*(volatile uint8*)(NIC_START_ADDRESS + 0x0B))
+#define NIC_RECEIVE_CONFIGRATION_REGISTER  (*(volatile uint8*)(NIC_START_ADDRESS + 0x0C))
+#define NIC_TRANSMIT_CONFIGRATION_REGISTER (*(volatile uint8*)(NIC_START_ADDRESS + 0x0D))
+#define NIC_DATA_CONFIGRATION_REGISTER     (*(volatile uint8*)(NIC_START_ADDRESS + 0x0E))
+#define NIC_INTERRUPT_MASK_REGISTER        (*(volatile uint8*)(NIC_START_ADDRESS + 0x0F))
 
 /* page1 */
-#define NIC_PHYSICAL_ADDRESS_REGISTER0  0x01
-#define NIC_PHYSICAL_ADDRESS_REGISTER1  0x02
-#define NIC_PHYSICAL_ADDRESS_REGISTER2  0x03
-#define NIC_PHYSICAL_ADDRESS_REGISTER3  0x04
-#define NIC_PHYSICAL_ADDRESS_REGISTER4  0x05
-#define NIC_PHYSICAL_ADDRESS_REGISTER5  0x06
-#define NIC_CURRENT_PAGE_REGISTER       0x07
-#define NIC_MULTICAST_ADDRESS_REGISTER0 0x08
-#define NIC_MULTICAST_ADDRESS_REGISTER1 0x09
-#define NIC_MULTICAST_ADDRESS_REGISTER2 0x0A
-#define NIC_MULTICAST_ADDRESS_REGISTER3 0x0B
-#define NIC_MULTICAST_ADDRESS_REGISTER4 0x0C
-#define NIC_MULTICAST_ADDRESS_REGISTER5 0x0D
-#define NIC_MULTICAST_ADDRESS_REGISTER6 0x0E
-#define NIC_MULTICAST_ADDRESS_REGISTER7 0x0F
+#define NIC_PHYSICAL_ADDRESS_REGISTER0  (*(volatile uint8*)(NIC_START_ADDRESS + 0x01))
+#define NIC_PHYSICAL_ADDRESS_REGISTER1  (*(volatile uint8*)(NIC_START_ADDRESS + 0x02))
+#define NIC_PHYSICAL_ADDRESS_REGISTER2  (*(volatile uint8*)(NIC_START_ADDRESS + 0x03))
+#define NIC_PHYSICAL_ADDRESS_REGISTER3  (*(volatile uint8*)(NIC_START_ADDRESS + 0x04))
+#define NIC_PHYSICAL_ADDRESS_REGISTER4  (*(volatile uint8*)(NIC_START_ADDRESS + 0x05))
+#define NIC_PHYSICAL_ADDRESS_REGISTER5  (*(volatile uint8*)(NIC_START_ADDRESS + 0x06))
+#define NIC_CURRENT_PAGE_REGISTER       (*(volatile uint8*)(NIC_START_ADDRESS + 0x07))
+#define NIC_MULTICAST_ADDRESS_REGISTER0 (*(volatile uint8*)(NIC_START_ADDRESS + 0x08))
+#define NIC_MULTICAST_ADDRESS_REGISTER1 (*(volatile uint8*)(NIC_START_ADDRESS + 0x09))
+#define NIC_MULTICAST_ADDRESS_REGISTER2 (*(volatile uint8*)(NIC_START_ADDRESS + 0x0A))
+#define NIC_MULTICAST_ADDRESS_REGISTER3 (*(volatile uint8*)(NIC_START_ADDRESS + 0x0B))
+#define NIC_MULTICAST_ADDRESS_REGISTER4 (*(volatile uint8*)(NIC_START_ADDRESS + 0x0C))
+#define NIC_MULTICAST_ADDRESS_REGISTER5 (*(volatile uint8*)(NIC_START_ADDRESS + 0x0D))
+#define NIC_MULTICAST_ADDRESS_REGISTER6 (*(volatile uint8*)(NIC_START_ADDRESS + 0x0E))
+#define NIC_MULTICAST_ADDRESS_REGISTER7 (*(volatile uint8*)(NIC_START_ADDRESS + 0x0F))
 
 ////////////////////internal data R/W functions////////////////////
-static uint8
-NIC_read (uint8 NIC_offset_address)
-{
-  uint8 data;
-  volatile uint8 *pointer;
-
-  pointer = (volatile unsigned char *)NIC_START_ADDRESS;
-  data = pointer[NIC_offset_address];
-  return data;
-}
-
-static void
-NIC_write (uint8 NIC_offset_address, uint8 send_data)
-{
-  volatile uint8 *pointer;
-
-  pointer = (volatile unsigned char *)NIC_START_ADDRESS;
-  pointer[NIC_offset_address] = send_data;
-}
-
-
 /* set_NIC_DMA_data_size()を作成 */
 
 /* TODO:関数化set_NIC_remote_DMA_start_address */
-/* NIC_write (NIC_REMOTE_START_ADDRESS_REGISTER0, 0x00); */
-/* NIC_write (NIC_REMOTE_START_ADDRESS_REGISTER1, 0x00); */
+/* NIC_REMOTE_START_ADDRESS_REGISTER0 = 0x00; */
+/* NIC_REMOTE_START_ADDRESS_REGISTER1 = 0x00; */
 
 ////////////////////register setting functions////////////////////
 static void
 stop_NIC (void)
 {
-  NIC_write (NIC_COMMAND_REGISTER, 0b00000001);
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER & ~0b00001110;
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER | 0b00100001;
 }
 
 static void
 start_NIC (void)
 {
-  NIC_write (NIC_COMMAND_REGISTER, 0b00000010);
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER & ~0b00000001;
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER | 0b00000010;
 }
 
 static void
-start_NIC_DMA (void)
+start_NIC_DMA_read (void)
 {
-  NIC_write (NIC_COMMAND_REGISTER, 0b00001000);
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER & ~0b11110100;
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER | 0b00001000;
 }
 
 static void
 set_NIC_page0 (void)
 {
-  NIC_write (NIC_COMMAND_REGISTER, 0b00100000);
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER & ~0b11000000;
 }
 
 static void
 set_NIC_page1 (void)
 {
-  NIC_write (NIC_COMMAND_REGISTER, 0b01100000);
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER | 0b01100000;
+  NIC_COMMAND_REGISTER = NIC_COMMAND_REGISTER & ~0b10000000;
 }
 
 static void
 set_NIC_FIFO_threshold_8byte (void)
 {
-  NIC_write (NIC_DATA_CONFIGRATION_REGISTER, 0b01000000);
+  NIC_DATA_CONFIGRATION_REGISTER = 0b01000000;
 }
 
 /* TODO:TCRとセットで設定がMUST．同一関数内にする */
 static void
 set_NIC_loopback_mode (void)
 {
-  NIC_write (NIC_DATA_CONFIGRATION_REGISTER, 0b00001000);
+  NIC_DATA_CONFIGRATION_REGISTER = 0b00001000;
 }
 
 static void
 set_NIC_byte_order_big_endian (void)
 {
-  NIC_write (NIC_DATA_CONFIGRATION_REGISTER, 0b00000010);
+  NIC_DATA_CONFIGRATION_REGISTER = 0b00000010;
 }
 
 static void
 set_NIC_receive_monitor_mode(void)
 {
-  NIC_write (NIC_RECEIVE_CONFIGRATION_REGISTER, 0x20);
+  NIC_RECEIVE_CONFIGRATION_REGISTER = 0x21;
 }
 
 static void
 set_NIC_transmit_loopback_mode(void)
 {
-  NIC_write (NIC_TRANSMIT_CONFIGRATION_REGISTER, 0x02);
+  NIC_TRANSMIT_CONFIGRATION_REGISTER = 0x02;
 }
 
 static void
 set_NIC_transmit_buffer_start_address (void)
 {
-  NIC_write (NIC_TRANSMIT_PAGE_START_REGISTER, 0x40);
+  NIC_TRANSMIT_PAGE_START_REGISTER = 0x40;
 }
 
 static void
 set_NIC_receive_buffer_start_address ()
 {
-  NIC_write (NIC_PAGE_START_REGISTER, 0x46);
+  NIC_PAGE_START_REGISTER = 0x46;
 }
 
 static void
 reset_NIC_receive_boundary_address ()
 {
-  NIC_write (NIC_BOUNDARY_REGISTER, 0x46);
+  NIC_BOUNDARY_REGISTER = 0x46;
 }
 
 static void
 set_NIC_receive_buffer_end_address ()
 {
-  NIC_write (NIC_PAGE_STOP_REGISTER, 0x60);
+  NIC_PAGE_STOP_REGISTER = 0x60;
 }
 
 ////////////////////interface functions////////////////////
@@ -170,8 +153,8 @@ NIC_soft_reset (void)
 {
   uint8 reset_status;
 
-  reset_status = NIC_read (NIC_RESET_PORT);
-  NIC_write (NIC_RESET_PORT, reset_status);
+  reset_status = NIC_RESET_PORT;
+  NIC_RESET_PORT = reset_status;
   wait_ms (10);
 }
 
@@ -195,8 +178,8 @@ clear_NIC_DMA_data_size (void)
     /* TODO:関数名変更(clear_NIC_DMA_data_size()) */
 {
 /* TODO:上記に加えて引数を持つ関数set_NIC_DMA_data_size()を作成 */
-  NIC_write (NIC_REMOTE_BYTE_COUNT_REGISTER0, 0x00);
-  NIC_write (NIC_REMOTE_BYTE_COUNT_REGISTER1, 0x00);
+  NIC_REMOTE_BYTE_COUNT_REGISTER0 = 0x00;
+  NIC_REMOTE_BYTE_COUNT_REGISTER1 = 0x00;
 }
 
 void
@@ -220,7 +203,7 @@ disable_NIC_interrupt(void)
 {
 /* TODO:internal functionsに移動 */
   disable_NIC_set_page0 ();
-  NIC_write (NIC_INTERRUPT_MASK_REGISTER, 0x00);
+  NIC_INTERRUPT_MASK_REGISTER = 0x00;
 }
 
 void
@@ -228,14 +211,14 @@ enable_NIC_interrupt(void)
 {
 /* TODO:internal functionsに移動 */
   start_NIC_page0 ();
-  NIC_write (NIC_INTERRUPT_MASK_REGISTER, 0x01);
+  NIC_INTERRUPT_MASK_REGISTER = 0x01;
 }
 
 void
 clear_NIC_interrupt_flag(void)
 {
   start_NIC_page0 ();
-  NIC_write (NIC_INTERRUPT_STATUS_REGISTER, 0xFF);
+  NIC_INTERRUPT_STATUS_REGISTER = 0xFF;
 }
 
 void
@@ -243,8 +226,8 @@ set_NIC_MAC_address_size(void)
 {
 /* TODO:set_NIC_DMA_data_size()を呼ぶように変更 */
 /* TODO:MACアドレスサイズをdefineに */
-  NIC_write (NIC_REMOTE_BYTE_COUNT_REGISTER0, 12);
-  NIC_write (NIC_REMOTE_BYTE_COUNT_REGISTER1, 0);
+  NIC_REMOTE_BYTE_COUNT_REGISTER0 = 12;
+  NIC_REMOTE_BYTE_COUNT_REGISTER1 = 0;
 }
 
 void
@@ -252,31 +235,33 @@ set_NIC_MAC_start_address(void)
 {
   /* TODO:関数化set_NIC_remote_DMA_start_address */
   /* TODO:アドレスをdefineに */
-  NIC_write (NIC_REMOTE_START_ADDRESS_REGISTER0, 0x00);
-  NIC_write (NIC_REMOTE_START_ADDRESS_REGISTER1, 0x00);
+  NIC_REMOTE_START_ADDRESS_REGISTER0 = 0x00;
+  NIC_REMOTE_START_ADDRESS_REGISTER1 = 0x00;
 }
 
+/* TODO:関数名変更start_NIC_page0_remoteDMA_read(void) */
 void
 start_NIC_page0_remoteDMA(void)
 {
   start_NIC ();
-  start_NIC_DMA ();
+  start_NIC_DMA_read ();
 }
 
 uint8 *
 read_NIC_MAC_address(void)
 {
   uint16 i;
+  uint8 dummy;
 
   /* read MAC address 2byte cycle loop (little endian) */
   for (i = 0; i < MAC_ADDRESS_SIZE; i += 2)
   {
-    source_MAC_address[i + 1] = NIC_read(NIC_REMOTE_DMA_PORT);
+    source_MAC_address[i + 1] = NIC_REMOTE_DMA_PORT;
     /* dummy data */
-    NIC_read(NIC_REMOTE_DMA_PORT); 
-    source_MAC_address[i] = NIC_read(NIC_REMOTE_DMA_PORT); 
+    dummy = NIC_REMOTE_DMA_PORT; 
+    source_MAC_address[i] = NIC_REMOTE_DMA_PORT; 
     /* dummy data */
-    NIC_read(NIC_REMOTE_DMA_PORT); 
+    dummy = NIC_REMOTE_DMA_PORT; 
   }
 
   /* wait remote DMA finish */
@@ -296,38 +281,38 @@ disable_NIC_set_page1 (void)
 void
 set_NIC_MAC_address (uint8 source_MAC_address[])
 {
-  NIC_write (NIC_PHYSICAL_ADDRESS_REGISTER0, source_MAC_address[0]);
-  NIC_write (NIC_PHYSICAL_ADDRESS_REGISTER1, source_MAC_address[1]);
-  NIC_write (NIC_PHYSICAL_ADDRESS_REGISTER2, source_MAC_address[2]);
-  NIC_write (NIC_PHYSICAL_ADDRESS_REGISTER3, source_MAC_address[3]);
-  NIC_write (NIC_PHYSICAL_ADDRESS_REGISTER4, source_MAC_address[4]);
-  NIC_write (NIC_PHYSICAL_ADDRESS_REGISTER5, source_MAC_address[5]);
+  NIC_PHYSICAL_ADDRESS_REGISTER0 = source_MAC_address[0];
+  NIC_PHYSICAL_ADDRESS_REGISTER1 = source_MAC_address[1];
+  NIC_PHYSICAL_ADDRESS_REGISTER2 = source_MAC_address[2];
+  NIC_PHYSICAL_ADDRESS_REGISTER3 = source_MAC_address[3];
+  NIC_PHYSICAL_ADDRESS_REGISTER4 = source_MAC_address[4];
+  NIC_PHYSICAL_ADDRESS_REGISTER5 = source_MAC_address[5];
 }
 
 void
 set_NIC_receive_data_start_address(void)
 {
 /* TODO:関数名変更reset_receive_current_address */
-  NIC_write (NIC_CURRENT_PAGE_REGISTER, 0x47);
+  NIC_CURRENT_PAGE_REGISTER = 0x47;
 }
 
 void
 set_NIC_multicast_address (void)
 {
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER0, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER1, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER2, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER3, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER4, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER5, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER6, 0);
-  NIC_write (NIC_MULTICAST_ADDRESS_REGISTER7, 0);
+  NIC_MULTICAST_ADDRESS_REGISTER0 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER1 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER2 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER3 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER4 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER5 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER6 = 0;
+  NIC_MULTICAST_ADDRESS_REGISTER6 = 0;
 }
 
 void
 correspond_to_broadcast_packet (void)
 {
-  NIC_write (NIC_RECEIVE_CONFIGRATION_REGISTER, 0x04);
+  NIC_RECEIVE_CONFIGRATION_REGISTER = 0x04;
 }
 
 void
@@ -340,7 +325,7 @@ start_NIC_page0 (void)
 void
 set_NIC_normal_send_mode (void)
 {
-  NIC_write (NIC_TRANSMIT_CONFIGRATION_REGISTER, 0x00);
+  NIC_TRANSMIT_CONFIGRATION_REGISTER = 0x00;
 }
 
 uint8 *
@@ -373,10 +358,10 @@ packet_receive(uint8 *packet)
 
 /* TODO:関数にまとめる(BOUNDARY_REGISTERを読み取る) */
   start_NIC_page0 ();
-  boundary_page = NIC_read (NIC_BOUNDARY_REGISTER);
+  boundary_page = NIC_BOUNDARY_REGISTER;
 /* TODO:関数にまとめる(CURRENT_PAGE_REGISTERを読み取る) */
   start_NIC_page1 ();
-  current_page = NIC_read (NIC_CURRENT_PAGE_REGISTER);
+  current_page = NIC_CURRENT_PAGE_REGISTER;
   /* no data received*/
   /* TODO:条件判定を関数orマクロ切り出し*/
   if (current_page == boundary_page + 1)
@@ -401,14 +386,14 @@ packet_receive(uint8 *packet)
   start_NIC_page0 ();
 /* TODO:関数分離*uint8 read_remote_DMA(start_page,size) */
 /* TODO:関数化read_DMA_receive_data_size() */
-  NIC_write (NIC_REMOTE_BYTE_COUNT_REGISTER0, 4);
-  NIC_write (NIC_REMOTE_BYTE_COUNT_REGISTER1, 0);
-  NIC_write (NIC_REMOTE_START_ADDRESS_REGISTER0, 0x00);
-  NIC_write (NIC_REMOTE_START_ADDRESS_REGISTER1, start_page);
+  NIC_REMOTE_BYTE_COUNT_REGISTER0 = 4;
+  NIC_REMOTE_BYTE_COUNT_REGISTER1 = 0;
+  NIC_REMOTE_START_ADDRESS_REGISTER0 = 0x00;
+  NIC_REMOTE_START_ADDRESS_REGISTER1 = start_page;
   start_NIC_page0_remoteDMA();
   for (i = 0; i < 4; i++)
   {
-    header[i] = NIC_read(NIC_REMOTE_DMA_PORT);
+    header[i] = NIC_REMOTE_DMA_PORT;
   }
   while(NIC_REMOTE_DMA_DONE == 0)
     ;
@@ -416,22 +401,22 @@ packet_receive(uint8 *packet)
   size_L = header[2];
   size_H = header[3];
   size = ((unsigned short)size_H << 8) + (unsigned short)size_L;
-  NIC_write(NIC_REMOTE_BYTE_COUNT_REGISTER0, size_L); /* 受信パケットのサイズ（下位バイト） */
-  NIC_write(NIC_REMOTE_BYTE_COUNT_REGISTER1, size_H); /* 受信パケットのサイズ（上位バイト） */
-  NIC_write(NIC_REMOTE_START_ADDRESS_REGISTER0, 0x00); /* 受信パケットの先頭アドレス（下位バイト） */
-  NIC_write(NIC_REMOTE_START_ADDRESS_REGISTER1, start_page); /* 受信パケットの先頭アドレス（上位バイト） */
-  NIC_write(NIC_COMMAND_REGISTER, 0x0A); /* リモートDMA読み取りを許可する */
+  NIC_REMOTE_BYTE_COUNT_REGISTER0 = size_L; /* 受信パケットのサイズ（下位バイト） */
+  NIC_REMOTE_BYTE_COUNT_REGISTER1 = size_H; /* 受信パケットのサイズ（上位バイト） */
+  NIC_REMOTE_START_ADDRESS_REGISTER0 = 0x00; /* 受信パケットの先頭アドレス（下位バイト） */
+  NIC_REMOTE_START_ADDRESS_REGISTER1 = start_page; /* 受信パケットの先頭アドレス（上位バイト） */
+  NIC_COMMAND_REGISTER = 0x0A; /* リモートDMA読み取りを許可する */
 /* TODO:分けずに連続で格納して頭4byteを無視する作りにする */
   for (i = 0; i < 4; i++)
   {
-    NIC_read(NIC_REMOTE_DMA_PORT); /* ダミー・データを読み取る */
+    NIC_REMOTE_DMA_PORT; /* ダミー・データを読み取る */
   }
   for (i = 0; i < (size - 4); i++)
   {
-    packet[i] = NIC_read(NIC_REMOTE_DMA_PORT); /* 受信バッファからパケットのデータを読み取る */
+    packet[i] = NIC_REMOTE_DMA_PORT; /* 受信バッファからパケットのデータを読み取る */
     if (i >= 256) /* パケットのサイズが256byteよりも大きいとき(uint8でデータを扱っているため) */
     {
-      NIC_read(NIC_REMOTE_DMA_PORT); /* ダミー・データを読み取る */
+      NIC_REMOTE_DMA_PORT; /* ダミー・データを読み取る */
     }
   }
   while(NIC_REMOTE_DMA_DONE == 0)
@@ -443,7 +428,7 @@ packet_receive(uint8 *packet)
   {
     boundary_page -= (0x60 - 0x46);
   }
-  NIC_write(NIC_BOUNDARY_REGISTER, boundary_page); 
+  NIC_BOUNDARY_REGISTER = boundary_page; 
    
   return 0;
 }
@@ -484,27 +469,27 @@ packet_send(uint8 *packet, uint16 size)
 
    start_NIC_page0 ();
 /* TODO:関数分離*uint8 send_remote_DMA(start_page,size) */
-   NIC_write(NIC_REMOTE_BYTE_COUNT_REGISTER0, size_L); /* 送信パケットのサイズ（下位バイト） */
-   NIC_write(NIC_REMOTE_BYTE_COUNT_REGISTER1, size_H); /* 送信パケットのサイズ（上位バイト） */
-   NIC_write(NIC_REMOTE_START_ADDRESS_REGISTER0, 0x00); /* 送信パケットの先頭アドレス（下位バイト） */
-   NIC_write(NIC_REMOTE_START_ADDRESS_REGISTER1, 0x40); /* 送信パケットの先頭アドレス（上位バイト） */
-   NIC_write(NIC_COMMAND_REGISTER, 0x12); /* リモートDMA書き込みを許可する */
+   NIC_REMOTE_BYTE_COUNT_REGISTER0 = size_L; /* 送信パケットのサイズ（下位バイト） */
+   NIC_REMOTE_BYTE_COUNT_REGISTER1 = size_H; /* 送信パケットのサイズ（上位バイト） */
+   NIC_REMOTE_START_ADDRESS_REGISTER0 = 0x00; /* 送信パケットの先頭アドレス（下位バイト） */
+   NIC_REMOTE_START_ADDRESS_REGISTER1 = 0x40; /* 送信パケットの先頭アドレス（上位バイト） */
+   NIC_COMMAND_REGISTER = 0x12; /* リモートDMA書込みを許可する */
 
    for (i = 0; i < size; i++)
    {
-      NIC_write(NIC_REMOTE_DMA_PORT, packet[i]); /* 送信バッファにパケットのデータを書き込む */
+      NIC_REMOTE_DMA_PORT = packet[i]; /* 送信バッファにパケットのデータを書き込む */
    }
    while(NIC_REMOTE_DMA_DONE == 0)
      ;
    start_NIC_page0 ();
 /* TODO:関数分離*uint8 send_local_DMA(start_page,size) */
-   NIC_write(NIC_TRANSMIT_BYTE_COUNT_REGISTER0, size_L); /* 送信パケットのサイズ（下位バイト） */
-   NIC_write(NIC_TRANSMIT_BYTE_COUNT_REGISTER1, size_H); /* 送信パケットのサイズ（上位バイト） */
-   NIC_write(NIC_TRANSMIT_PAGE_START_REGISTER, 0x40); /* 送信バッファの開始ページ */
-   NIC_write(NIC_COMMAND_REGISTER, 0x26); /* パケットを送信する */
+   NIC_TRANSMIT_BYTE_COUNT_REGISTER0 = size_L; /* 送信パケットのサイズ（下位バイト） */
+   NIC_TRANSMIT_BYTE_COUNT_REGISTER1 = size_H; /* 送信パケットのサイズ（上位バイト） */
+   NIC_TRANSMIT_PAGE_START_REGISTER = 0x40; /* 送信バッファの開始ページ */
+   NIC_COMMAND_REGISTER = 0x26; /* パケットを送信する */
    do
    {
-     data = NIC_read(NIC_COMMAND_REGISTER); /* CRを読み取る */
+     data = NIC_COMMAND_REGISTER;
    } while ((data & 0x04) == 0x04); /* パケットの送信が完了するのを待つ */
 }
 
